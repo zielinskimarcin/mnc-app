@@ -24,10 +24,15 @@ A custom-built loyalty and menu management solution developed for the MNC Concep
 
 ## Previews
 
-![Menu View](assets/screen1.png)
-![Rewards Shop](assets/screen2.png)
-![Loyalty Code](assets/screen3.png)
-![Login Screen](assets/screen4.png)
-![User Profile](assets/screen5.png)
+## Previews
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/47461181-d631-4669-ac8d-69fe5fe28d2f" width="200" />
+  <img src="https://github.com/user-attachments/assets/3d0bab5d-87eb-4f27-82e8-0949d2371828" width="200" />
+  <img src="TUTAJ_WPROWADZ_LINK_3" width="200" />
+  <br />
+  <img src="TUTAJ_WPROWADZ_LINK_4" width="200" />
+  <img src="TUTAJ_WPROWADZ_LINK_5" width="200" />
+</div>
 ---
 *Note: This repository covers the mobile client. The management interface is located in another repository.*
