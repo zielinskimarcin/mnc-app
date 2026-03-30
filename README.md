@@ -27,12 +27,12 @@ A custom-built loyalty and menu management solution developed for the MNC Concep
 | | | |
 |:---:|:---:|:---:|
 | <img src="assets/screen1.png" width="200" /> | <img src="assets/screen2.png" width="200" /> | <img src="assets/screen3.png" width="200" /> |
-| **Menu View** | **User Profile** | **Loyalty Code** |
+| **Menu View** | **Rewards Shop** | **Loyalty Code** |
 
 | | |
 |:---:|:---:|
 | <img src="assets/screen4.png" width="200" /> | <img src="assets/screen5.png" width="200" /> |
-| **Notifications** | **Rewards Shop** |
+| **Login Screen** | **User Profile** |
 
 ---
 *Note: This repository covers the mobile client. The management interface is located in the [mnc-dashboard] repository.*
