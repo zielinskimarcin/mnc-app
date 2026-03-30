@@ -23,11 +23,9 @@ A custom-built loyalty and menu management solution developed for the MNC Concep
 * iOS (TestFlight Deployment)
 
 ## Previews
-
-## Previews
 | | | |
 |:---:|:---:|:---:|
-| <img src="https://github.com/user-attachments/assets/47461181-d631-4669-ac8d-69fe5fe28d2f" /> | <img src="https://github.com/user-attachments/assets/3d0bab5d-87eb-4f27-82e8-0949d2371828" width="200" /> | <img src="assets/screen3.png" width="200" /> |
+| <img src="https://github.com/user-attachments/assets/47461181-d631-4669-ac8d-69fe5fe28d2f" width="200" /> | <img src="https://github.com/user-attachments/assets/3d0bab5d-87eb-4f27-82e8-0949d2371828" width="200" /> | <img src="https://github.com/user-attachments/assets/232e8f36-d021-4b00-bede-cbaa6112a643" width="200" /> |
 | **Menu View** | **User Profile** | **Loyalty Code** |
 
 | | |
