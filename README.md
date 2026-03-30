@@ -24,34 +24,10 @@ A custom-built loyalty and menu management solution developed for the MNC Concep
 
 ## Previews
 
-<table width="100%">
-  <tr>
-    <td align="center" valign="top" width="33%">
-      <img src="./assets/screen1.png" width="200" /><br />
-      <b>Menu View</b>
-    </td>
-    <td align="center" valign="top" width="33%">
-      <img src="./assets/screen2.png" width="200" /><br />
-      <b>Rewards Shop</b>
-    </td>
-    <td align="center" valign="top" width="33%">
-      <img src="./assets/screen3.png" width="200" /><br />
-      <b>Loyalty Code</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="top" width="33%">
-      <img src="./assets/screen4.png" width="200" /><br />
-      <b>Login Screen</b>
-    </td>
-    <td align="center" valign="top" width="33%">
-      <img src="./assets/screen5.png" width="200" /><br />
-      <b>User Profile</b>
-    </td>
-    <td align="center" valign="top" width="33%">
-      </td>
-  </tr>
-</table>
-
+![Menu View](assets/screen1.png)
+![Rewards Shop](assets/screen2.png)
+![Loyalty Code](assets/screen3.png)
+![Login Screen](assets/screen4.png)
+![User Profile](assets/screen5.png)
 ---
-*Note: This repository covers the mobile client. The management interface is located in the [mnc-admin] repository.*
+*Note: This repository covers the mobile client. The management interface is located in another repository.*
