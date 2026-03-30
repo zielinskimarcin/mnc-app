@@ -1,6 +1,6 @@
-# MNC Concept - Mobile Application
+# MNC Concept - iOS Mobile Application
 
-A custom-built loyalty and menu management solution developed for the MNC Concept cafe in Białystok, Poland. The application is currently deployed and undergoing beta testing via Apple TestFlight.
+A custom-built loyalty and menu management solution developed for the MNC Concept cafe in Poland. The application is currently deployed and undergoing beta testing via Apple TestFlight.
 
 ## Core Functionality
 
