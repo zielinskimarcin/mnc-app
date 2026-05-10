@@ -67,24 +67,22 @@ export default function App() {
   const didRegisterRef = useRef(false);
   const expoTokenRef = useRef<string | null>(null);
 
-  async function upsertTokenRow(token: string, userId: string | null) {
+  async function registerPushToken(token: string, accessToken?: string) {
     try {
-      const { error } = await supabase
-        .from("push_tokens")
-        .upsert(
-          {
-            expo_push_token: token,
-            platform: Platform.OS,
-            user_id: userId,
-            device_id: Device.modelName ?? "unknown",
-            device: Device.modelName ?? "unknown",
-            last_seen_at: new Date().toISOString(),
-          },
-          { onConflict: "expo_push_token" }
-        );
+      const { error } = await supabase.functions.invoke("register_push_token", {
+        body: {
+          expo_push_token: token,
+          platform: Platform.OS,
+          device_id: Device.modelName ?? "unknown",
+          device: Device.modelName ?? "unknown",
+        },
+        headers: accessToken
+          ? { Authorization: `Bearer ${accessToken}` }
+          : undefined,
+      });
 
       if (error) {
-        console.log("push_tokens upsert error:", error.message);
+        console.log("register_push_token error:", error.message);
       } else {
         console.log("Push token zapisany poprawnie");
       }
@@ -105,10 +103,7 @@ export default function App() {
         setSession(s);
 
         if (expoTokenRef.current) {
-          await upsertTokenRow(
-            expoTokenRef.current,
-            s?.user?.id ?? null
-          );
+          await registerPushToken(expoTokenRef.current, s?.access_token);
         }
       }
     );
@@ -129,7 +124,7 @@ export default function App() {
       expoTokenRef.current = token;
       console.log("Expo Push Token:", token);
 
-      await upsertTokenRow(token, session?.user?.id ?? null);
+      await registerPushToken(token, session?.access_token);
     })();
   }, [booting]);
 
@@ -143,13 +138,21 @@ useEffect(() => {
 
         if (!campaignId) return;
 
-        await supabase.from("push_opens").insert({
-          campaign_id: campaignId,
-          expo_push_token: expoTokenRef.current,
-          user_id: session?.user?.id ?? null,
+        const { error } = await supabase.functions.invoke("track_push_open", {
+          body: {
+            campaign_id: campaignId,
+            expo_push_token: expoTokenRef.current,
+          },
+          headers: session?.access_token
+            ? { Authorization: `Bearer ${session.access_token}` }
+            : undefined,
         });
 
-        console.log("Push open zapisany");
+        if (error) {
+          console.log("track_push_open error:", error.message);
+        } else {
+          console.log("Push open zapisany");
+        }
       } catch (e) {
         console.log("push open error:", e);
       }

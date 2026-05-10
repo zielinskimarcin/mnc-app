@@ -394,6 +394,18 @@ entrypoint = "./functions/send_push/index.ts"
 # For example, if you want to serve static HTML pages in your function:
 # static_files = [ "./functions/send_push/*.html" ]
 
+[functions.register_push_token]
+enabled = true
+verify_jwt = false
+import_map = "./functions/register_push_token/deno.json"
+entrypoint = "./functions/register_push_token/index.ts"
+
+[functions.track_push_open]
+enabled = true
+verify_jwt = false
+import_map = "./functions/track_push_open/deno.json"
+entrypoint = "./functions/track_push_open/index.ts"
+
 [functions.delete_user]
 enabled = true
 verify_jwt = true
