@@ -406,6 +406,11 @@ verify_jwt = false
 import_map = "./functions/track_push_open/deno.json"
 entrypoint = "./functions/track_push_open/index.ts"
 
+[functions.run_scheduled_push]
+enabled = true
+verify_jwt = false
+entrypoint = "./functions/run_scheduled_push/index.ts"
+
 [functions.delete_user]
 enabled = true
 verify_jwt = true

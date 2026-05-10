@@ -1,8 +1,9 @@
 -- Push token/open writes now go through Edge Functions:
 -- register_push_token and track_push_open.
 --
--- Apply this only after the mobile build using those functions is shipped,
--- because older TestFlight builds write directly to these tables.
+-- DO NOT put this file in supabase/migrations until the mobile build using
+-- those functions has shipped, because older TestFlight builds write directly
+-- to these tables.
 
 revoke all on public.push_tokens from anon, authenticated;
 
