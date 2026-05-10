@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "*",
+  "Access-Control-Allow-Headers": "authorization, content-type",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
@@ -17,16 +17,54 @@ serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { status: 200, headers: corsHeaders });
   }
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "Method not allowed" }), { status: 405, headers: corsHeaders });
+  }
 
   try {
     const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
     const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 
-    if (!SUPABASE_URL || !SERVICE_ROLE_KEY) {
-      return new Response(JSON.stringify({ error: "Missing SUPABASE_URL or SERVICE_ROLE_KEY env" }), { status: 500, headers: corsHeaders });
+    if (!SUPABASE_URL || !SERVICE_ROLE_KEY || !ANON_KEY) {
+      return new Response(JSON.stringify({ error: "Missing Supabase env" }), { status: 500, headers: corsHeaders });
     }
 
-    const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
+    const authHeader = req.headers.get("authorization") || req.headers.get("Authorization");
+    const jwt = authHeader?.startsWith("Bearer ")
+      ? authHeader.slice("Bearer ".length).trim()
+      : authHeader?.trim();
+
+    if (!jwt) {
+      return new Response(JSON.stringify({ error: "Missing Authorization header" }), { status: 401, headers: corsHeaders });
+    }
+
+    const userClient = createClient(SUPABASE_URL, ANON_KEY, {
+      auth: { persistSession: false },
+    });
+
+    const {
+      data: { user },
+      error: userError,
+    } = await userClient.auth.getUser(jwt);
+
+    if (userError || !user) {
+      return new Response(JSON.stringify({ error: "Invalid session" }), { status: 401, headers: corsHeaders });
+    }
+
+    const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY, {
+      auth: { persistSession: false },
+    });
+
+    const { data: profile, error: roleError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (roleError || !["admin", "staff"].includes(String(profile?.role ?? ""))) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
+    }
 
     const payload = await req.json().catch(() => ({}));
     const title = String(payload?.title ?? "").trim();
@@ -38,17 +76,9 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Missing title/body" }), { status: 400, headers: corsHeaders });
     }
 
-    // -------------- DIAGNOSTYKA: czy tabele istnieją? ----------------
-    try {
-      const { data: checkCamp } = await supabase.rpc('pg_stat_statements' as any).catch(() => ({ data: null }));
-      // ignore – this rpc try is just to ensure client works; we won't rely on it
-    } catch (err) {
-      // ignore
-    }
-
     // Explicitly check push_campaigns and push_opens existence by attempting a harmless select
-    const { error: checkCampErr } = await supabase.from('push_campaigns').select('id').limit(1);
-    if (checkCampErr && checkCampErr.code === '42703' || checkCampErr && checkCampErr.code === '42P01') {
+    const { error: checkCampErr } = await supabase.from("push_campaigns").select("id").limit(1);
+    if (checkCampErr && (checkCampErr.code === "42703" || checkCampErr.code === "42P01")) {
       return new Response(JSON.stringify({ error: "Table push_campaigns missing or permission denied", detail: String(checkCampErr) }), { status: 500, headers: corsHeaders });
     }
     if (checkCampErr) {
@@ -61,7 +91,7 @@ serve(async (req) => {
     try {
       const { data: campaignData, error: insertErr } = await supabase
         .from('push_campaigns')
-        .insert({ title, body, audience })
+        .insert({ title, body, data, audience, tokens: 0, sent: 0 })
         .select('id')
         .single();
 
@@ -152,7 +182,7 @@ serve(async (req) => {
 
     // update campaign.sent safely
     try {
-      await supabase.from('push_campaigns').update({ sent }).eq('id', campaignId);
+      await supabase.from("push_campaigns").update({ tokens: tokenList.length, sent }).eq("id", campaignId);
     } catch (e) {
       // non-fatal
       console.log("Failed updating campaign.sent:", e);

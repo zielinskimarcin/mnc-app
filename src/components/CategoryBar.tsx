@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   itemInactive: { backgroundColor: "#FFF" },
 
   label: {
-    fontFamily: theme.t?.label?.fontFamily ?? "Inter_500Medium",
+    fontFamily: theme.t.catLabel.fontFamily,
     fontSize: 12,
     letterSpacing: 2, // to daje ten “premium” look z mocka
   },
