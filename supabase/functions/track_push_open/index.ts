@@ -96,14 +96,32 @@ serve(async (req) => {
       auth: { persistSession: false },
     });
 
-    const { error } = await service.from("push_opens").insert({
+    const { data: tokenRow, error: tokenError } = await service
+      .from("push_tokens")
+      .select("user_id")
+      .eq("expo_push_token", expoPushToken)
+      .maybeSingle();
+
+    if (tokenError) {
+      console.log("track_push_open token lookup error:", tokenError);
+      return json({ error: "Could not verify push token" }, 500);
+    }
+
+    if (!tokenRow) {
+      return json({ ok: true, skipped: true, reason: "unknown_push_token" });
+    }
+
+    const { error } = await service.from("push_opens").upsert({
       campaign_id: campaignId,
       expo_push_token: expoPushToken,
-      user_id: resolved.userId,
+      user_id: resolved.userId ?? tokenRow.user_id ?? null,
+      opened_at: new Date().toISOString(),
+    }, {
+      onConflict: "campaign_id,expo_push_token",
     });
 
     if (error) {
-      console.log("track_push_open insert error:", error);
+      console.log("track_push_open upsert error:", error);
       return json({ error: "Could not track push open" }, 500);
     }
 
