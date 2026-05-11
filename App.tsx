@@ -1,6 +1,6 @@
 import "react-native-url-polyfill/auto";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Platform, View } from "react-native";
+import { ActivityIndicator, Platform, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Session } from "@supabase/supabase-js";
@@ -9,9 +9,14 @@ import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import Constants from "expo-constants";
 
-import { supabase } from "./src/lib/supabase";
+import {
+  isSupabaseConfigured,
+  missingSupabaseEnvVars,
+  supabase,
+} from "./src/lib/supabase";
 import AuthScreen from "./src/screens/AuthScreen";
 import MainTabs from "./src/navigation/MainTabs";
+import { theme } from "./src/ui/theme";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -60,7 +65,23 @@ async function getExpoToken(): Promise<string | null> {
   }
 }
 
-export default function App() {
+function ConfigErrorScreen() {
+  return (
+    <SafeAreaProvider>
+      <View style={styles.configErrorRoot}>
+        <Text style={styles.configErrorTitle}>Brak konfiguracji aplikacji</Text>
+        <Text style={styles.configErrorText}>
+          Ten build nie ma ustawionych zmiennych Supabase.
+        </Text>
+        <Text style={styles.configErrorVars}>
+          {missingSupabaseEnvVars.join(", ")}
+        </Text>
+      </View>
+    </SafeAreaProvider>
+  );
+}
+
+function AppShell() {
   const [session, setSession] = useState<Session | null>(null);
   const [booting, setBooting] = useState(true);
 
@@ -184,3 +205,37 @@ useEffect(() => {
     </SafeAreaProvider>
   );
 }
+
+export default function App() {
+  if (!isSupabaseConfigured) return <ConfigErrorScreen />;
+
+  return <AppShell />;
+}
+
+const styles = StyleSheet.create({
+  configErrorRoot: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 24,
+    backgroundColor: theme.c.bg,
+  },
+  configErrorTitle: {
+    fontSize: 20,
+    color: theme.c.text,
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  configErrorText: {
+    fontSize: 15,
+    color: theme.c.muted,
+    textAlign: "center",
+    lineHeight: 22,
+  },
+  configErrorVars: {
+    fontSize: 13,
+    color: theme.c.text,
+    textAlign: "center",
+    marginTop: 14,
+  },
+});
