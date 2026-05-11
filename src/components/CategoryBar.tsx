@@ -1,26 +1,20 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { Leaf, CupSoda, Utensils } from "lucide-react-native";
 import { theme } from "../ui/theme";
+import { MenuCategoryKey, tenant } from "../config/tenant";
 
-const ITEMS = [
-  { key: "MATCHA", label: "MATCHA", Icon: Leaf },
-  { key: "NAPOJE", label: "NAPOJE", Icon: CupSoda },
-  { key: "JEDZENIE", label: "JEDZENIE", Icon: Utensils },
-] as const;
-
-export type CategoryKey = (typeof ITEMS)[number]["key"];
+export type CategoryKey = MenuCategoryKey;
 
 export function CategoryBar({
   value,
   onChange,
 }: {
-  value: CategoryKey;
-  onChange: (k: CategoryKey) => void;
+      value: CategoryKey;
+      onChange: (k: CategoryKey) => void;
 }) {
   return (
     <View style={styles.row}>
-      {ITEMS.map((it, idx) => {
+      {tenant.menuCategories.map((it, idx) => {
         const active = it.key === value;
         const Icon = it.Icon;
 
@@ -28,12 +22,13 @@ export function CategoryBar({
           <Pressable
             key={it.key}
             onPress={() => onChange(it.key)}
-            style={[
-              styles.item,
-              active ? styles.itemActive : styles.itemInactive,
-              idx === 1 ? styles.itemMid : null,
-            ]}
-          >
+              style={[
+                styles.item,
+                tenant.menuCategories.length <= 3 ? styles.itemFlexible : styles.itemFixed,
+                active ? styles.itemActive : styles.itemInactive,
+                idx > 0 ? styles.itemDivider : null,
+              ]}
+            >
             <Icon
               size={18}
               strokeWidth={1.75}
@@ -59,16 +54,17 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    flex: 1,
-    height: 82, // bardzo podobne do Twojego mocka
+    height: 82,
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
   },
 
-  itemMid: {
+  itemFlexible: { flex: 1 },
+  itemFixed: { width: 112 },
+
+  itemDivider: {
     borderLeftWidth: 1,
-    borderRightWidth: 1,
     borderColor: theme.c.borderStrong ?? "#000",
   },
 
@@ -78,7 +74,7 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: theme.t.catLabel.fontFamily,
     fontSize: 12,
-    letterSpacing: 2, // to daje ten “premium” look z mocka
+    letterSpacing: 2,
   },
   labelActive: { color: "#FFF" },
   labelInactive: { color: "#000" },

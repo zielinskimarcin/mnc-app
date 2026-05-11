@@ -21,6 +21,7 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import * as Crypto from "expo-crypto";
 import { supabase } from "../lib/supabase";
 import { theme } from "../ui/theme";
+import { tenant } from "../config/tenant";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -114,7 +115,6 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
     }
   };
 
-  // ✅ NATIVE APPLE LOGIN (Expo + Supabase)
   const signInWithAppleNative = async () => {
     try {
       setBusy(true);
@@ -125,7 +125,6 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
         return;
       }
 
-      // raw nonce -> hash -> Apple, raw -> Supabase
       const rawNonce = randomNonce(32);
       const hashedNonce = await Crypto.digestStringAsync(
         Crypto.CryptoDigestAlgorithm.SHA256,
@@ -161,13 +160,12 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
       setBusy(false);
     }
   };
-// ✅ GOOGLE LOGIN (Expo AuthSession + Supabase OAuth)
 const signInWithGoogle = async () => {
   try {
     setBusy(true);
 
     const redirectTo = AuthSession.makeRedirectUri({
-      scheme: "mncconcept",
+      scheme: tenant.appScheme,
     });
 
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -213,8 +211,8 @@ const signInWithGoogle = async () => {
           <View style={styles.formWrap}>
             <View style={styles.brandBlock}>
               <View style={styles.brandRow}>
-                <Text style={styles.brandText}>MNC CONCEPT</Text>
-                <Text style={styles.tm}>™</Text>
+                <Text style={styles.brandText}>{tenant.brandName}</Text>
+                {tenant.brandMark ? <Text style={styles.tm}>{tenant.brandMark}</Text> : null}
               </View>
 
               <Text style={styles.slogan}>
@@ -264,13 +262,11 @@ const signInWithGoogle = async () => {
                 <View style={styles.dividerLine} />
               </View>
 
-              {/* ✅ APPLE */}
               <Pressable style={styles.outlineBtn} onPress={signInWithAppleNative} disabled={busy}>
                 <Ionicons name="logo-apple" size={18} color="#000" style={{ marginRight: 10 }} />
                 <Text style={styles.outlineText}>{busy ? "..." : "KONTYNUUJ Z APPLE"}</Text>
               </Pressable>
 
-              {/* Google zostawiamy na później, jak mówiłeś */}
               <Pressable style={styles.outlineBtn} onPress={signInWithGoogle} disabled={busy}>
                 <View style={{ marginRight: 10 }}>
                   <GoogleG size={18} />

@@ -6,7 +6,7 @@ Date: 2026-05-11
 
 The Laura/MNC app is strong enough for continued TestFlight testing and a controlled first commercial pilot.
 It is not yet a fully repeatable multi-client template. The main blockers are not basic stability; they are
-operational repeatability, loyalty accounting, and configurable branding/content.
+operational repeatability, OAuth provider verification, and deeper loyalty analytics.
 
 ## Verified
 
@@ -22,6 +22,8 @@ operational repeatability, loyalty accounting, and configurable branding/content
 - `admin_users` legacy Edge Function is disabled in live Supabase and both admin repo copies now match that disabled behavior.
 - Public writes to `app_config`, `push_tokens`, and `push_opens` are closed.
 - Account deletion exists in the app profile screen.
+- Mobile/admin tenant config now centralizes brand/menu/loyalty/dashboard settings.
+- `loyalty_events` now records staff point adjustments with RLS-protected audit history.
 
 ## Fixed During This Audit
 
@@ -31,20 +33,22 @@ operational repeatability, loyalty accounting, and configurable branding/content
 - Changed admin GitHub cron workflow into a manual fallback and corrected the header to `x-cron-secret`.
 - Added admin Supabase env guard to avoid a broken blank dashboard when env vars are missing.
 - Disabled the stale root copy of `admin_users` in `mnc-admin/supabase/functions`.
+- Added clone-oriented tenant config in mobile app and admin dashboard.
+- Added `loyalty_events` database ledger and recent point operation history in the admin points screen.
 
 ## High Priority Before Cloning
 
-1. Create a single app/admin tenant config.
-   Move brand name, app scheme, bundle id notes, menu categories, loyalty text, reward target, copy, colors, font names, icon choices, admin base path, and default push route into explicit config files.
+1. Complete OAuth provider verification.
+   Google has at least one live identity and a successful Supabase OAuth callback in logs, but it still needs a full native TestFlight/development-build verification. Apple is not verified: live Supabase Auth logs on 2026-05-11 show `Unacceptable audience in id_token: [com.greenvoi.conceptapp]`, so Apple Developer/Supabase provider configuration must be fixed.
 
-2. Define loyalty accounting.
-   Current points can only increment/decrement by 1 and there is no transaction ledger. Points can exceed the reward threshold. Before selling this as a loyalty product, add a `point_events` or `loyalty_events` table and decide how reward redemption works.
+2. Decide reward redemption rules.
+   Point add/remove operations are now logged in `loyalty_events`, but the product still needs a clear rule for redeeming the reward: subtract 10, reset to 0, allow over-threshold balance, or add a dedicated redemption action.
 
-3. Make menu categories dynamic.
-   Database supports arbitrary category strings, but the mobile app and admin UI are hardcoded to `MATCHA`, `NAPOJE`, `JEDZENIE`. A restaurant asking for 5 tabs currently requires code changes in both repos.
+3. Finish native clone config.
+   Tenant settings now live in config files, but `app.json` still has native per-client identifiers: app name, slug, scheme, bundle id, icons, and EAS project id.
 
 4. Make clone setup deterministic.
-   Add a documented setup flow for new Supabase projects: migrations, Edge Functions, secrets, `pg_cron`, first admin user, EAS env, bundle id, app scheme, dashboard deploy, and smoke tests.
+   Follow and keep improving `docs/clone-runbook.md`: migrations, Edge Functions, secrets, `pg_cron`, first admin user, EAS env, bundle id, app scheme, dashboard deploy, and smoke tests.
 
 5. Decide scheduler source of truth.
    Live scheduled pushes run via Supabase `pg_cron`. GitHub Actions should remain manual fallback only, otherwise duplicate schedulers could race.
@@ -91,4 +95,3 @@ For every new restaurant:
 11. Build TestFlight.
 12. Deploy admin dashboard with client-specific base path/env.
 13. Smoke test: login, profile, delete account, menu, points, staff point adjustment, push permission, immediate push, scheduled push, push history.
-

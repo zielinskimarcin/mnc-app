@@ -16,11 +16,7 @@ import { MncHeader } from "../components/MncHeader";
 import { supabase } from "../lib/supabase";
 import ProfileScreen from "./ProfileScreen";
 import AuthScreen from "./AuthScreen";
-
-function pluralKawa(n: number) {
-  if (n === 1) return "punkt";
-  return "punktów";
-}
+import { formatPointWord, tenant } from "../config/tenant";
 
 type ProfileRow = {
   id: string;
@@ -29,7 +25,7 @@ type ProfileRow = {
 };
 
 export default function PointsScreen() {
-  const maxPoints = 10;
+  const maxPoints = tenant.loyalty.maxPoints;
 
   const [points, setPoints] = useState<number>(0);
   const [code, setCode] = useState<string>("");
@@ -42,11 +38,7 @@ export default function PointsScreen() {
 
   const [userLogged, setUserLogged] = useState(false);
 
-  const steps = [
-    "Zbieraj punkty przy każdym zakupie matchy",
-    "10 punktów = matcha gratis",
-    "Pokaż aplikację przy kasie",
-  ];
+  const steps = tenant.loyalty.steps;
 
   const left = useMemo(() => Math.max(0, maxPoints - points), [maxPoints, points]);
 
@@ -145,8 +137,8 @@ export default function PointsScreen() {
 
           <Text style={styles.leftText}>
             {left === 0
-              ? "Gratulacje! Odbierz darmową kawę!"
-              : `Jeszcze ${left} ${pluralKawa(left)} do nagrody`}
+              ? tenant.loyalty.rewardReadyText
+              : `Jeszcze ${left} ${formatPointWord(left)} ${tenant.loyalty.pointsUntilRewardSuffix}`}
           </Text>
         </View>
 

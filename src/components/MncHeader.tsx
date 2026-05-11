@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { User } from "lucide-react-native";
 import { theme } from "../ui/theme";
+import { tenant } from "../config/tenant";
 
 export function MncHeader({ onProfile }: { onProfile?: () => void }) {
   const insets = useSafeAreaInsets();
@@ -11,8 +12,8 @@ export function MncHeader({ onProfile }: { onProfile?: () => void }) {
     <View style={[styles.wrap, { paddingTop: insets.top + 18 }]}>
       {/* Brand */}
       <View style={styles.brandRow}>
-        <Text style={styles.brandText}>MNC CONCEPT</Text>
-        <Text style={styles.tm}>™</Text>
+        <Text style={styles.brandText}>{tenant.brandName}</Text>
+        {tenant.brandMark ? <Text style={styles.tm}>{tenant.brandMark}</Text> : null}
       </View>
 
       {/* Profile */}

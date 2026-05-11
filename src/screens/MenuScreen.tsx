@@ -9,13 +9,13 @@ import {
   View,
   RefreshControl,
 } from "react-native";
-import { Leaf, CupSoda, Utensils } from "lucide-react-native";
 
 import { theme } from "../ui/theme";
 import { supabase } from "../lib/supabase";
 import { MncHeader } from "../components/MncHeader";
 import ProfileScreen from "./ProfileScreen";
 import { MenuCategory, MenuItemT } from "../components/MenuCategory";
+import { defaultMenuCategory, MenuCategoryKey, tenant } from "../config/tenant";
 
 type DbItem = {
   id: string;
@@ -27,16 +27,8 @@ type DbItem = {
   order_index: number;
 };
 
-const CATS = [
-  { key: "MATCHA", label: "MATCHA", Icon: Leaf },
-  { key: "NAPOJE", label: "NAPOJE", Icon: CupSoda },
-  { key: "JEDZENIE", label: "JEDZENIE", Icon: Utensils },
-] as const;
-
-type CatKey = (typeof CATS)[number]["key"];
-
 export default function MenuScreen() {
-  const [cat, setCat] = useState<CatKey>("MATCHA");
+  const [cat, setCat] = useState<MenuCategoryKey>(defaultMenuCategory);
   const [items, setItems] = useState<DbItem[]>([]);
   const [profileOpen, setProfileOpen] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -89,9 +81,13 @@ export default function MenuScreen() {
     <View style={styles.root}>
       <MncHeader onProfile={() => setProfileOpen(true)} />
 
-      {/* Pasek MATCHA / NAPOJE / JEDZENIE */}
-      <View style={styles.catRow}>
-        {CATS.map((c, idx) => {
+      <ScrollView
+        horizontal={tenant.menuCategories.length > 3}
+        showsHorizontalScrollIndicator={false}
+        style={styles.catScroller}
+        contentContainerStyle={styles.catRow}
+      >
+        {tenant.menuCategories.map((c, idx) => {
           const active = c.key === cat;
           const Icon = c.Icon;
 
@@ -101,8 +97,9 @@ export default function MenuScreen() {
               onPress={() => setCat(c.key)}
               style={[
                 styles.catItem,
+                tenant.menuCategories.length <= 3 ? styles.catItemFlexible : styles.catItemFixed,
                 active ? styles.catItemActive : styles.catItemInactive,
-                idx === 1 ? styles.catMidBorders : null,
+                idx > 0 ? styles.catDivider : null,
               ]}
             >
               <Icon size={18} strokeWidth={1.75} color={active ? "#FFF" : "#000"} />
@@ -112,7 +109,7 @@ export default function MenuScreen() {
             </Pressable>
           );
         })}
-      </View>
+      </ScrollView>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -137,25 +134,29 @@ export default function MenuScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: theme.c.bg },
 
-  catRow: {
-    flexDirection: "row",
-    // ✅ USUNIĘTA górna kreska, żeby nie dublować z headerem
+  catScroller: {
     borderBottomWidth: 1,
     borderColor: theme.c.borderStrong,
     backgroundColor: "#FFF",
   },
 
+  catRow: {
+    flexDirection: "row",
+    flexGrow: 1,
+  },
+
   catItem: {
-    flex: 1,
     height: 82,
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
   },
 
-  catMidBorders: {
+  catItemFlexible: { flex: 1 },
+  catItemFixed: { width: 112 },
+
+  catDivider: {
     borderLeftWidth: 1,
-    borderRightWidth: 1,
     borderColor: theme.c.borderStrong,
   },
 

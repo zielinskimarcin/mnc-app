@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { theme } from "../ui/theme";
+import { formatPointWord, tenant } from "../config/tenant";
 
 export function LoyaltyCard({ points, maxPoints }: { points: number; maxPoints: number }) {
   const remaining = Math.max(0, maxPoints - points);
@@ -28,7 +29,9 @@ export function LoyaltyCard({ points, maxPoints }: { points: number; maxPoints: 
 
       <View style={styles.bottom}>
         <Text style={styles.bottomText}>
-          {remaining === 0 ? "Gratulacje! Odbierz darmową kawę!" : `Jeszcze ${remaining} do nagrody`}
+          {remaining === 0
+            ? tenant.loyalty.rewardReadyText
+            : `Jeszcze ${remaining} ${formatPointWord(remaining)} ${tenant.loyalty.pointsUntilRewardSuffix}`}
         </Text>
       </View>
     </View>
