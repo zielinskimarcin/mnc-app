@@ -42,17 +42,17 @@ operational repeatability, OAuth provider verification, and deeper loyalty analy
 
 ## High Priority Before Cloning
 
-1. Complete OAuth provider verification.
-   Google has at least one live identity and a successful Supabase OAuth callback in logs, but it still needs a full native TestFlight/development-build verification. Apple is not verified: live Supabase Auth logs on 2026-05-11 show `Unacceptable audience in id_token: [com.greenvoi.conceptapp]`, so Apple Developer/Supabase provider configuration must be fixed.
+1. Repeat OAuth verification per clone.
+   MNC Google and Apple sign-in were verified on device after provider configuration fixes. Every new client still needs its own Google/Apple provider setup and a physical-device verification before TestFlight is considered production-ready.
 
 2. Expand owner-facing analytics.
    Point add/remove and reward redemption operations are now logged in `loyalty_events`, but owners still need clearer metrics: active users, repeat customers, reward redemptions, push conversion, and retention.
 
-3. Finish native clone config.
-   Tenant settings now live in config files, but `app.json` still has native per-client identifiers: app name, slug, scheme, bundle id, icons, and EAS project id.
+3. Finish production identity per clone.
+   Native identity now comes from `clients/<slug>/client.config.json`, but every real client still needs dedicated EAS project id, App Store Connect app, icons, splash, screenshots, support/privacy metadata, and OAuth redirect/provider settings.
 
 4. Make clone setup deterministic.
-   Follow and keep improving `docs/clone-runbook.md`: migrations, Edge Functions, secrets, `pg_cron`, first admin user, EAS env, bundle id, app scheme, dashboard deploy, and smoke tests.
+   Follow and keep improving `docs/client-launch-runbook.md`: migrations, Edge Functions, secrets, `pg_cron`, first admin user, EAS env, bundle id, app scheme, dashboard deploy, seed SQL, readiness report, and smoke tests.
 
 5. Decide scheduler source of truth.
    Live scheduled pushes run via Supabase `pg_cron`. GitHub Actions should remain manual fallback only, otherwise duplicate schedulers could race.

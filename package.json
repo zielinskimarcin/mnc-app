@@ -6,6 +6,8 @@
     "typecheck": "tsc --noEmit",
     "client:validate": "node scripts/validate-client.mjs",
     "client:new": "node scripts/new-client.mjs",
+    "client:readiness": "node scripts/client-readiness.mjs",
+    "client:seed-sql": "node scripts/generate-seed-sql.mjs",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",

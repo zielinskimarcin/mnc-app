@@ -59,6 +59,18 @@ npm run typecheck
 
 For a newly generated client, keep `native.easProjectId` empty until that client has its own EAS project. The Expo config will then expose `extra.eas` without a project id, which is safer than accidentally building against the MNC/Laura EAS project.
 
+Check full launch readiness:
+
+```bash
+npm run client:readiness -- mozzi
+```
+
+Generate the initial Supabase seed SQL:
+
+```bash
+npm run client:seed-sql -- mozzi
+```
+
 7. Configure Supabase for the client:
 
 - fresh Supabase project

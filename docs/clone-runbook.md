@@ -64,6 +64,18 @@ Inspect the final Expo config that EAS will see:
 APP_CLIENT=mnc npx expo config --json
 ```
 
+Check launch readiness for a client:
+
+```bash
+npm run client:readiness -- mozzi
+```
+
+Generate initial menu/app config seed SQL:
+
+```bash
+npm run client:seed-sql -- mozzi
+```
+
 Production builds should always be launched with the correct active client:
 
 ```bash

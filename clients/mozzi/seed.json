@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "slug": "mozzi",
+  "adminEmail": "owner@mozzi.test",
+  "appConfig": {
+    "client_slug": "mozzi",
+    "brand_name": "Mozzi",
+    "reward_threshold": "10"
+  },
+  "menuItems": [
+    {
+      "category": "KAWA",
+      "section": "KLASYKI",
+      "title": "Espresso",
+      "description": "Krótka, intensywna kawa na ziarnach house blend.",
+      "price": 900,
+      "orderIndex": 1
+    },
+    {
+      "category": "KAWA",
+      "section": "KLASYKI",
+      "title": "Cappuccino",
+      "description": "Espresso, mleko i delikatna pianka.",
+      "price": 1500,
+      "orderIndex": 2
+    },
+    {
+      "category": "KAWA",
+      "section": "KLASYKI",
+      "title": "Flat white",
+      "description": "Podwójne espresso z kremowym mlekiem.",
+      "price": 1700,
+      "orderIndex": 3
+    },
+    {
+      "category": "KAWA",
+      "section": "NA ZIMNO",
+      "title": "Cold brew",
+      "description": "Kawa macerowana na zimno, podawana z lodem.",
+      "price": 1800,
+      "orderIndex": 1
+    },
+    {
+      "category": "ŚNIADANIA",
+      "section": "RANO",
+      "title": "Croissant maślany",
+      "description": "Wypiekany rano, podawany z konfiturą.",
+      "price": 1600,
+      "orderIndex": 1
+    },
+    {
+      "category": "ŚNIADANIA",
+      "section": "RANO",
+      "title": "Tost z jajkiem",
+      "description": "Chleb na zakwasie, jajko, ser i zioła.",
+      "price": 2900,
+      "orderIndex": 2
+    },
+    {
+      "category": "ŚNIADANIA",
+      "section": "RANO",
+      "title": "Owsianka sezonowa",
+      "description": "Płatki owsiane, owoce, orzechy i miód.",
+      "price": 2400,
+      "orderIndex": 3
+    },
+    {
+      "category": "DESERY",
+      "section": "SŁODKIE",
+      "title": "Tiramisu",
+      "description": "Klasyczne tiramisu z espresso.",
+      "price": 2400,
+      "orderIndex": 1
+    },
+    {
+      "category": "DESERY",
+      "section": "SŁODKIE",
+      "title": "Sernik baskijski",
+      "description": "Kremowy sernik z mocno karmelizowanym wierzchem.",
+      "price": 2600,
+      "orderIndex": 2
+    },
+    {
+      "category": "DESERY",
+      "section": "SŁODKIE",
+      "title": "Cannoli",
+      "description": "Chrupiąca rurka z kremem ricotta i pistacją.",
+      "price": 1900,
+      "orderIndex": 3
+    },
+    {
+      "category": "WINO",
+      "section": "KIELISZKI",
+      "title": "Prosecco",
+      "description": "Lekko musujące, świeże i cytrusowe.",
+      "price": 2200,
+      "orderIndex": 1
+    },
+    {
+      "category": "WINO",
+      "section": "KIELISZKI",
+      "title": "Riesling",
+      "description": "Białe, mineralne, z wyraźną kwasowością.",
+      "price": 2600,
+      "orderIndex": 2
+    },
+    {
+      "category": "WINO",
+      "section": "KIELISZKI",
+      "title": "Primitivo",
+      "description": "Czerwone, pełne, z nutami ciemnych owoców.",
+      "price": 2800,
+      "orderIndex": 3
+    }
+  ]
+}
