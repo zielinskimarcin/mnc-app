@@ -45,12 +45,15 @@ The owner usually still needs to:
 Run from `concept-app`:
 
 ```bash
+npm run client:launch-check -- mozzi --full
 npm run client:validate -- mozzi
 npm run client:readiness -- mozzi
 npm run client:seed-sql -- mozzi
 APP_CLIENT=mozzi EXPO_PUBLIC_CLIENT_SLUG=mozzi npx expo config --json
 npm run typecheck
 ```
+
+`client:launch-check` is the preferred entry point for future Codex sessions. The individual commands are listed for debugging or when a specific part of the launch flow needs to be checked separately.
 
 Run from `mnc-admin`:
 

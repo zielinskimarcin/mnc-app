@@ -67,6 +67,12 @@ APP_CLIENT=mnc npx expo config --json
 Check launch readiness for a client:
 
 ```bash
+npm run client:launch-check -- mozzi --full
+```
+
+Use the lower-level structural readiness report when debugging:
+
+```bash
 npm run client:readiness -- mozzi
 ```
 

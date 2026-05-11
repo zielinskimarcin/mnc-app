@@ -65,7 +65,7 @@ if (!client) {
     const resolved = path.join(root, assetPath);
     if (!exists(resolved)) {
       add("FAIL", `Missing asset ${assetKey}: ${assetPath}`);
-    } else if (assetPath.startsWith("./assets/")) {
+    } else if (slug !== "mnc" && assetPath.startsWith("./assets/")) {
       add("TODO", `Asset ${assetKey} still points at shared template path: ${assetPath}`);
     } else {
       add("PASS", `Asset ${assetKey} exists: ${assetPath}`);
@@ -110,7 +110,11 @@ if (client && dashboard) {
 }
 
 if (!seed) {
-  add("TODO", `Missing seed file: clients/${slug}/seed.json`);
+  if (slug === "mnc") {
+    add("PASS", "Seed file is optional for the existing MNC production app");
+  } else {
+    add("TODO", `Missing seed file: clients/${slug}/seed.json`);
+  }
 } else if (client) {
   add("PASS", `Seed file exists: ${relativeToNearest(seedPath)}`);
 

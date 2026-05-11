@@ -62,6 +62,12 @@ For a newly generated client, keep `native.easProjectId` empty until that client
 Check full launch readiness:
 
 ```bash
+npm run client:launch-check -- mozzi --full
+```
+
+Use the lower-level readiness check when you only need the structural report:
+
+```bash
 npm run client:readiness -- mozzi
 ```
 
