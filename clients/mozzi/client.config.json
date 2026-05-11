@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "slug": "pogodna",
-  "displayName": "Pogodna Café",
+  "slug": "mozzi",
+  "displayName": "Mozzi",
   "brand": {
-    "name": "POGODNA",
+    "name": "MOZZI",
     "mark": ""
   },
   "native": {
-    "expoSlug": "pogodna-app",
-    "scheme": "pogodna",
-    "iosBundleIdentifier": "com.greenvoi.pogodna",
+    "expoSlug": "mozzi-app",
+    "scheme": "mozzi",
+    "iosBundleIdentifier": "com.greenvoi.mozzi",
     "easProjectId": ""
   },
   "assets": {
@@ -102,7 +102,7 @@
     "maxPoints": 10,
     "copy": {
       "pl": {
-        "rewardReadyText": "Gratulacje! Odbierz kawę od Pogodnej.",
+        "rewardReadyText": "Gratulacje! Odbierz kawę od Mozzi.",
         "pointsUntilRewardSuffix": "do nagrody",
         "steps": [
           "Zbieraj punkty przy każdej wizycie",
@@ -116,7 +116,7 @@
         }
       },
       "en": {
-        "rewardReadyText": "Your Pogodna coffee reward is ready.",
+        "rewardReadyText": "Your Mozzi coffee reward is ready.",
         "pointsUntilRewardSuffix": "until your reward",
         "steps": [
           "Collect points with every visit",
@@ -132,8 +132,8 @@
     }
   },
   "admin": {
-    "title": "POGODNA ADMIN",
-    "basePath": "/pogodna-admin/",
+    "title": "MOZZI ADMIN",
+    "basePath": "/mozzi-admin/",
     "defaultPushScreen": "MENU"
   }
 }

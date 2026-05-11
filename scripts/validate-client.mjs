@@ -121,11 +121,11 @@ if (config) {
   }
 
   if (!/^[a-z0-9][a-z0-9-]*$/.test(config.native.expoSlug ?? "")) {
-    fail("native.expoSlug should be URL/EAS friendly, e.g. pogodna-app");
+    fail("native.expoSlug should be URL/EAS friendly, e.g. mozzi-app");
   }
 
   if (!/^[a-z][a-z0-9+.-]*$/.test(config.native.scheme ?? "")) {
-    fail("native.scheme should be lowercase and URL-scheme friendly, e.g. pogodna");
+    fail("native.scheme should be lowercase and URL-scheme friendly, e.g. mozzi");
   }
 
   if (!/^[A-Za-z0-9.-]+\.[A-Za-z0-9.-]+$/.test(config.native.iosBundleIdentifier ?? "")) {

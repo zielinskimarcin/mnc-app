@@ -9,7 +9,7 @@ Each client should get its own mobile app build, admin dashboard deployment, and
 
 Use one Supabase project per restaurant and one admin deployment per restaurant.
 
-For the first 10-20 clients, avoid one shared multi-tenant admin dashboard at `/mnc`, `/pogodna`, and similar paths. Separate deployments are simpler to reason about, safer for owners, and reduce the chance of one client seeing another client's data or configuration. A shared multi-tenant dashboard can come later when tenant isolation, billing, support, and migrations are mature.
+For the first 10-20 clients, avoid one shared multi-tenant admin dashboard at `/mnc`, `/mozzi`, and similar paths. Separate deployments are simpler to reason about, safer for owners, and reduce the chance of one client seeing another client's data or configuration. A shared multi-tenant dashboard can come later when tenant isolation, billing, support, and migrations are mature.
 
 Good early model:
 
@@ -47,7 +47,7 @@ Menu category keys in mobile/admin config must match `menu_items.category` value
 Create a new client config from the MNC template:
 
 ```bash
-npm run client:new -- pogodna "Pogodna Cafe" com.greenvoi.pogodna pogodna
+npm run client:new -- mozzi "Mozzi" com.greenvoi.mozzi mozzi
 ```
 
 The command also registers the generated client in `src/config/client.ts` so the app bundle can select it.
@@ -75,9 +75,9 @@ Do not run a production build for a new client until `native.easProjectId` in `c
 In `mnc-admin`, create and validate the matching dashboard client:
 
 ```bash
-npm run client:new -- pogodna "POGODNA ADMIN" /pogodna-admin/
-VITE_CLIENT_SLUG=pogodna npm run client:validate -- pogodna
-VITE_CLIENT_SLUG=pogodna npm run build
+npm run client:new -- mozzi "MOZZI ADMIN" /mozzi-admin/
+VITE_CLIENT_SLUG=mozzi npm run client:validate -- mozzi
+VITE_CLIENT_SLUG=mozzi npm run build
 ```
 
 ## Supabase Setup

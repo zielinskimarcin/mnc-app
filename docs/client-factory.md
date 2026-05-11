@@ -30,12 +30,12 @@ The mobile app reads the same config through `src/config/client.ts`, `src/config
 1. Create config:
 
 ```bash
-npm run client:new -- pogodna "Pogodna Cafe" com.greenvoi.pogodna pogodna
+npm run client:new -- mozzi "Mozzi" com.greenvoi.mozzi mozzi
 ```
 
 2. Confirm the generated import and registry entry in `src/config/client.ts`.
 
-3. Replace or point asset paths in `clients/pogodna/client.config.json`.
+3. Replace or point asset paths in `clients/mozzi/client.config.json`.
 
 4. Apply visual direction in the config first:
 
@@ -52,8 +52,8 @@ loyalty.copy
 6. Validate:
 
 ```bash
-APP_CLIENT=pogodna npm run client:validate -- pogodna
-APP_CLIENT=pogodna npx expo config --json
+APP_CLIENT=mozzi npm run client:validate -- mozzi
+APP_CLIENT=mozzi npx expo config --json
 npm run typecheck
 ```
 
@@ -72,9 +72,9 @@ For a newly generated client, keep `native.easProjectId` empty until that client
 
 ```bash
 cd /Users/marcin/mnc-admin
-npm run client:new -- pogodna "POGODNA ADMIN" /pogodna-admin/
-VITE_CLIENT_SLUG=pogodna npm run client:validate -- pogodna
-VITE_CLIENT_SLUG=pogodna npm run build
+npm run client:new -- mozzi "MOZZI ADMIN" /mozzi-admin/
+VITE_CLIENT_SLUG=mozzi npm run client:validate -- mozzi
+VITE_CLIENT_SLUG=mozzi npm run build
 ```
 
 9. Run smoke tests from `docs/clone-runbook.md`.
@@ -82,7 +82,7 @@ VITE_CLIENT_SLUG=pogodna npm run build
 10. Build:
 
 ```bash
-APP_CLIENT=pogodna EXPO_PUBLIC_CLIENT_SLUG=pogodna eas build -p ios --profile production
+APP_CLIENT=mozzi EXPO_PUBLIC_CLIENT_SLUG=mozzi eas build -p ios --profile production
 ```
 
 ## Design Rule

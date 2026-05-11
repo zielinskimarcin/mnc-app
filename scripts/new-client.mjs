@@ -10,7 +10,7 @@ function usage() {
     "Usage: npm run client:new -- <slug> \"Display Name\" <ios.bundle.id> [scheme]"
   );
   console.log(
-    "Example: npm run client:new -- pogodna \"Pogodna Cafe\" com.greenvoi.pogodna pogodna"
+    "Example: npm run client:new -- mozzi \"Mozzi\" com.greenvoi.mozzi mozzi"
   );
 }
 
