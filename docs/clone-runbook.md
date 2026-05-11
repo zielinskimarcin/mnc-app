@@ -24,6 +24,7 @@ Good early model:
 Mobile app:
 
 - `src/config/tenant.ts`: brand name, app scheme used by OAuth redirects, menu categories, tab labels/icons, loyalty copy, reward threshold
+- `src/i18n/translations.ts`: app UI copy in Polish and English
 - `src/ui/theme.ts` and screen/component styles: visual system, colors, spacing, typography, borders
 - `app.json`: native Expo/App Store identity: app name, slug, scheme, bundle identifier, icons, EAS project id
 - `assets/`: client icon, splash, screenshots
@@ -92,7 +93,8 @@ Admin:
 - non-staff user is denied access
 - menu add/edit/delete works
 - point add/remove works
-- point operation appears in `loyalty_events` and the dashboard history
+- reward redemption subtracts 10 points through `staff_redeem_reward_by_code`
+- point/reward operation appears in `loyalty_events` and the dashboard history
 - immediate push sends
 - scheduled push creates a job
 - scheduled runner sends due jobs

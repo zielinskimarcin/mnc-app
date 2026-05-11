@@ -16,7 +16,8 @@ import { MncHeader } from "../components/MncHeader";
 import { supabase } from "../lib/supabase";
 import ProfileScreen from "./ProfileScreen";
 import AuthScreen from "./AuthScreen";
-import { formatPointWord, tenant } from "../config/tenant";
+import { formatPointWord, getLoyaltyCopy, tenant } from "../config/tenant";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type ProfileRow = {
   id: string;
@@ -25,7 +26,9 @@ type ProfileRow = {
 };
 
 export default function PointsScreen() {
+  const { language, t } = useLanguage();
   const maxPoints = tenant.loyalty.maxPoints;
+  const loyaltyCopy = getLoyaltyCopy(language);
 
   const [points, setPoints] = useState<number>(0);
   const [code, setCode] = useState<string>("");
@@ -38,9 +41,15 @@ export default function PointsScreen() {
 
   const [userLogged, setUserLogged] = useState(false);
 
-  const steps = tenant.loyalty.steps;
+  const steps = loyaltyCopy.steps;
 
   const left = useMemo(() => Math.max(0, maxPoints - points), [maxPoints, points]);
+  const rewardReady = userLogged && points >= maxPoints;
+  const codeButtonLabel = userLogged
+    ? rewardReady
+      ? t.points.redeemReward
+      : t.points.showCode
+    : t.points.register;
 
   const { width } = useWindowDimensions();
   const H_PADDING = theme.s.pad * 2;
@@ -71,14 +80,14 @@ export default function PointsScreen() {
       .single();
 
     if (error) {
-      Alert.alert("Profile error", error.message);
+      Alert.alert(t.points.profileErrorTitle, error.message);
       return;
     }
 
     const row = data as ProfileRow;
     setPoints(row.points ?? 0);
     setCode(row.short_code ?? "");
-  }, []);
+  }, [t.points.profileErrorTitle]);
 
   useEffect(() => {
     (async () => {
@@ -105,7 +114,7 @@ export default function PointsScreen() {
       >
         {/* KARTA PUNKTÓW */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>TWOJE PUNKTY</Text>
+          <Text style={styles.cardTitle}>{t.points.title}</Text>
 
           <Text style={styles.score}>
             {points} / {maxPoints}
@@ -137,8 +146,8 @@ export default function PointsScreen() {
 
           <Text style={styles.leftText}>
             {left === 0
-              ? tenant.loyalty.rewardReadyText
-              : `Jeszcze ${left} ${formatPointWord(left)} ${tenant.loyalty.pointsUntilRewardSuffix}`}
+              ? loyaltyCopy.rewardReadyText
+              : `${t.points.remainingPrefix} ${left} ${formatPointWord(left, language)} ${loyaltyCopy.pointsUntilRewardSuffix}`}
           </Text>
         </View>
 
@@ -152,7 +161,7 @@ export default function PointsScreen() {
             }
 
             if (!code) {
-              Alert.alert("Brak kodu", "Nie znaleziono kodu dla Twojego konta.");
+              Alert.alert(t.points.missingCodeTitle, t.points.missingCodeMessage);
               return;
             }
 
@@ -160,12 +169,12 @@ export default function PointsScreen() {
           }}
         >
           <Text style={styles.codeBtnText}>
-            {userLogged ? "ZOBACZ KOD" : "ZAREJESTRUJ SIĘ"}
+            {codeButtonLabel}
           </Text>
         </Pressable>
 
         {/* JAK TO DZIAŁA */}
-        <Text style={styles.howTitle}>JAK TO DZIAŁA?</Text>
+        <Text style={styles.howTitle}>{t.points.howItWorks}</Text>
 
         <View style={styles.stepsWrap}>
           {steps.map((txt, idx) => (
@@ -186,18 +195,22 @@ export default function PointsScreen() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalCard}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>TWÓJ KOD</Text>
+              <Text style={styles.modalTitle}>{rewardReady ? t.points.rewardCodeTitle : t.points.codeTitle}</Text>
               <Pressable onPress={() => setCodeOpen(false)}>
                 <X size={18} strokeWidth={1.8} color="#000" />
               </Pressable>
             </View>
+
+            <Text style={styles.modalInstruction}>
+              {rewardReady ? t.points.rewardInstruction : t.points.codeInstruction}
+            </Text>
 
             <View style={styles.modalCodeBox}>
               <Text style={styles.modalCode}>{code}</Text>
             </View>
 
             <Pressable style={styles.modalCloseBtn} onPress={() => setCodeOpen(false)}>
-              <Text style={styles.modalCloseText}>ZAMKNIJ</Text>
+              <Text style={styles.modalCloseText}>{t.common.close}</Text>
             </Pressable>
           </View>
         </View>
@@ -370,6 +383,14 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     alignItems: "center",
     marginBottom: 16,
+  },
+
+  modalInstruction: {
+    fontFamily: theme.f.regular,
+    fontSize: 14,
+    lineHeight: 20,
+    color: "#6B7280",
+    marginBottom: 14,
   },
 
   modalCode: {

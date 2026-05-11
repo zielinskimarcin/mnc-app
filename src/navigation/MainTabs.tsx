@@ -6,7 +6,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import MenuScreen from "../screens/MenuScreen";
 import PointsScreen from "../screens/PointsScreen";
 import { theme } from "../ui/theme";
-import { tenant } from "../config/tenant";
+import { localizedText, tenant } from "../config/tenant";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,6 +31,7 @@ const TABS = [
 
 function MncTabBar({ state, navigation }: any) {
   const insets = useSafeAreaInsets();
+  const { language } = useLanguage();
   const active = state.index;
 
   return (
@@ -57,7 +59,7 @@ function MncTabBar({ state, navigation }: any) {
                 color={isActive ? "#FFF" : "#000"}
               />
               <Text style={[styles.label, isActive ? styles.labelActive : styles.labelInactive]}>
-                {tab.label}
+                {localizedText(tab.label, language)}
               </Text>
             </View>
           </Pressable>

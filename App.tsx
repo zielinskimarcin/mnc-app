@@ -17,6 +17,7 @@ import {
 import AuthScreen from "./src/screens/AuthScreen";
 import MainTabs from "./src/navigation/MainTabs";
 import { theme } from "./src/ui/theme";
+import { LanguageProvider } from "./src/i18n/LanguageProvider";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -199,9 +200,11 @@ useEffect(() => {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <MainTabs />
-      </NavigationContainer>
+      <LanguageProvider>
+        <NavigationContainer>
+          <MainTabs />
+        </NavigationContainer>
+      </LanguageProvider>
     </SafeAreaProvider>
   );
 }

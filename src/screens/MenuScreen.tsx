@@ -15,7 +15,8 @@ import { supabase } from "../lib/supabase";
 import { MncHeader } from "../components/MncHeader";
 import ProfileScreen from "./ProfileScreen";
 import { MenuCategory, MenuItemT } from "../components/MenuCategory";
-import { defaultMenuCategory, MenuCategoryKey, tenant } from "../config/tenant";
+import { defaultMenuCategory, localizedText, MenuCategoryKey, tenant } from "../config/tenant";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 type DbItem = {
   id: string;
@@ -28,6 +29,7 @@ type DbItem = {
 };
 
 export default function MenuScreen() {
+  const { language, t } = useLanguage();
   const [cat, setCat] = useState<MenuCategoryKey>(defaultMenuCategory);
   const [items, setItems] = useState<DbItem[]>([]);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -42,11 +44,11 @@ export default function MenuScreen() {
       .order("order_index", { ascending: true });
 
     if (error) {
-      Alert.alert("Menu error", error.message);
+      Alert.alert(t.menu.errorTitle, error.message);
       return;
     }
     setItems((data ?? []) as DbItem[]);
-  }, []);
+  }, [t.menu.errorTitle]);
 
   useEffect(() => {
     loadMenu();
@@ -104,7 +106,7 @@ export default function MenuScreen() {
             >
               <Icon size={18} strokeWidth={1.75} color={active ? "#FFF" : "#000"} />
               <Text style={[styles.catLabel, active ? styles.catLabelActive : styles.catLabelInactive]}>
-                {c.label}
+                {localizedText(c.label, language)}
               </Text>
             </Pressable>
           );
@@ -121,7 +123,7 @@ export default function MenuScreen() {
           <MenuCategory key={sectionTitle} sectionTitle={sectionTitle} items={sectionItems} defaultOpen />
         ))}
 
-        {grouped.length === 0 && <Text style={{ color: theme.c.muted }}>Brak pozycji w tej kategorii.</Text>}
+        {grouped.length === 0 && <Text style={{ color: theme.c.muted }}>{t.menu.emptyCategory}</Text>}
       </ScrollView>
 
       <Modal visible={profileOpen} animationType="slide" onRequestClose={() => setProfileOpen(false)}>

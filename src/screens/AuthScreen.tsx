@@ -22,6 +22,7 @@ import * as Crypto from "expo-crypto";
 import { supabase } from "../lib/supabase";
 import { theme } from "../ui/theme";
 import { tenant } from "../config/tenant";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -48,6 +49,7 @@ function randomNonce(len = 32) {
 
 export default function AuthScreen({ onClose }: { onClose: () => void }) {
   const insets = useSafeAreaInsets();
+  const { t } = useLanguage();
   const translateY = useRef(new Animated.Value(SHEET_HEIGHT)).current;
 
   const [mode, setMode] = useState<"register" | "login">("register");
@@ -96,7 +98,7 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
       if (error) throw error;
       close();
     } catch (e: any) {
-      Alert.alert("Błąd", e?.message ?? "Nieznany błąd");
+      Alert.alert(t.common.error, e?.message ?? t.common.unknownError);
     } finally {
       setBusy(false);
     }
@@ -109,7 +111,7 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
       if (error) throw error;
       close();
     } catch (e: any) {
-      Alert.alert("Błąd", e?.message ?? "Nieznany błąd");
+      Alert.alert(t.common.error, e?.message ?? t.common.unknownError);
     } finally {
       setBusy(false);
     }
@@ -121,7 +123,7 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
 
       const available = await AppleAuthentication.isAvailableAsync();
       if (!available) {
-        Alert.alert("Apple", "Sign in with Apple jest dostępne tylko na iOS.");
+        Alert.alert("Apple", t.auth.appleUnavailable);
         return;
       }
 
@@ -140,7 +142,7 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
       });
 
       if (!credential.identityToken) {
-        throw new Error("Brak identityToken z Apple");
+        throw new Error(t.auth.appleTokenMissing);
       }
 
       const { error } = await supabase.auth.signInWithIdToken({
@@ -155,49 +157,50 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
     } catch (e: any) {
       // user cancelled -> nie pokazuj błędu
       if (e?.code === "ERR_REQUEST_CANCELED" || e?.message?.includes("canceled")) return;
-      Alert.alert("Apple login error", e?.message ?? "Nieznany błąd");
+      Alert.alert(t.auth.appleErrorTitle, e?.message ?? t.common.unknownError);
     } finally {
       setBusy(false);
     }
   };
-const signInWithGoogle = async () => {
-  try {
-    setBusy(true);
 
-    const redirectTo = AuthSession.makeRedirectUri({
-      scheme: tenant.appScheme,
-    });
+  const signInWithGoogle = async () => {
+    try {
+      setBusy(true);
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo,
-        skipBrowserRedirect: true,
-      },
-    });
+      const redirectTo = AuthSession.makeRedirectUri({
+        scheme: tenant.appScheme,
+      });
 
-    if (error) throw error;
-    if (!data?.url) throw new Error("Brak URL Google");
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo,
+          skipBrowserRedirect: true,
+        },
+      });
 
-    const result = await WebBrowser.openAuthSessionAsync(
-      data.url,
-      redirectTo
-    );
+      if (error) throw error;
+      if (!data?.url) throw new Error(t.auth.googleMissingUrl);
 
-    if (result.type !== "success") return;
+      const result = await WebBrowser.openAuthSessionAsync(
+        data.url,
+        redirectTo
+      );
 
-    const { error: exchangeError } =
-      await supabase.auth.exchangeCodeForSession(result.url);
+      if (result.type !== "success") return;
 
-    if (exchangeError) throw exchangeError;
+      const { error: exchangeError } =
+        await supabase.auth.exchangeCodeForSession(result.url);
 
-    close();
-  } catch (e: any) {
-    Alert.alert("Google login error", e?.message ?? "Nieznany błąd");
-  } finally {
-    setBusy(false);
-  }
-};
+      if (exchangeError) throw exchangeError;
+
+      close();
+    } catch (e: any) {
+      Alert.alert(t.auth.googleErrorTitle, e?.message ?? t.common.unknownError);
+    } finally {
+      setBusy(false);
+    }
+  };
   return (
     <View style={styles.overlay}>
       <Pressable style={styles.backdrop} onPress={close} />
@@ -217,20 +220,20 @@ const signInWithGoogle = async () => {
 
               <Text style={styles.slogan}>
                 {mode === "register"
-                  ? "Zarejestruj się i zbieraj punkty lojalnościowe"
-                  : "Zaloguj się i zbieraj punkty lojalnościowe"}
+                  ? t.auth.registerSlogan
+                  : t.auth.loginSlogan}
               </Text>
             </View>
 
             <View style={styles.form}>
               <View style={styles.field}>
-                <Text style={styles.label}>EMAIL</Text>
+                <Text style={styles.label}>{t.common.email}</Text>
                 <TextInput
                   value={email}
                   onChangeText={setEmail}
                   autoCapitalize="none"
                   keyboardType="email-address"
-                  placeholder="jan.kowalski@email.com"
+                  placeholder={t.auth.emailPlaceholder}
                   placeholderTextColor="#9CA3AF"
                   style={styles.input}
                   editable={!busy}
@@ -238,12 +241,12 @@ const signInWithGoogle = async () => {
               </View>
 
               <View style={styles.field}>
-                <Text style={styles.label}>HASŁO</Text>
+                <Text style={styles.label}>{t.common.password}</Text>
                 <TextInput
                   value={password}
                   onChangeText={setPassword}
                   secureTextEntry
-                  placeholder="••••••••"
+                  placeholder={t.auth.passwordPlaceholder}
                   placeholderTextColor="#9CA3AF"
                   style={styles.input}
                   editable={!busy}
@@ -252,41 +255,41 @@ const signInWithGoogle = async () => {
 
               <Pressable onPress={mode === "register" ? signUp : signIn} style={styles.primary} disabled={busy}>
                 <Text style={styles.primaryText}>
-                  {busy ? "..." : mode === "register" ? "ZAREJESTRUJ SIĘ" : "ZALOGUJ SIĘ"}
+                  {busy ? "..." : mode === "register" ? t.auth.registerSubmit : t.auth.loginSubmit}
                 </Text>
               </Pressable>
 
               <View style={styles.dividerRow}>
                 <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>LUB</Text>
+                <Text style={styles.dividerText}>{t.auth.divider}</Text>
                 <View style={styles.dividerLine} />
               </View>
 
               <Pressable style={styles.outlineBtn} onPress={signInWithAppleNative} disabled={busy}>
                 <Ionicons name="logo-apple" size={18} color="#000" style={{ marginRight: 10 }} />
-                <Text style={styles.outlineText}>{busy ? "..." : "KONTYNUUJ Z APPLE"}</Text>
+                <Text style={styles.outlineText}>{busy ? "..." : t.auth.continueApple}</Text>
               </Pressable>
 
               <Pressable style={styles.outlineBtn} onPress={signInWithGoogle} disabled={busy}>
                 <View style={{ marginRight: 10 }}>
                   <GoogleG size={18} />
                 </View>
-                <Text style={styles.outlineText}>KONTYNUUJ Z GOOGLE</Text>
+                <Text style={styles.outlineText}>{t.auth.continueGoogle}</Text>
               </Pressable>
 
               <View style={styles.signupWrap}>
                 {mode === "register" ? (
                   <>
-                    <Text style={styles.signupHint}>Masz już konto?</Text>
+                    <Text style={styles.signupHint}>{t.auth.hasAccount}</Text>
                     <Pressable onPress={() => setMode("login")} disabled={busy}>
-                      <Text style={styles.switchText}>ZALOGUJ SIĘ</Text>
+                      <Text style={styles.switchText}>{t.auth.loginSubmit}</Text>
                     </Pressable>
                   </>
                 ) : (
                   <>
-                    <Text style={styles.signupHint}>Nie masz konta?</Text>
+                    <Text style={styles.signupHint}>{t.auth.noAccount}</Text>
                     <Pressable onPress={() => setMode("register")} disabled={busy}>
-                      <Text style={styles.switchText}>ZAREJESTRUJ SIĘ</Text>
+                      <Text style={styles.switchText}>{t.auth.registerSubmit}</Text>
                     </Pressable>
                   </>
                 )}

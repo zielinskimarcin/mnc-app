@@ -2,15 +2,18 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { theme } from "../ui/theme";
-import { formatPointWord, tenant } from "../config/tenant";
+import { formatPointWord, getLoyaltyCopy } from "../config/tenant";
+import { useLanguage } from "../i18n/LanguageProvider";
 
 export function LoyaltyCard({ points, maxPoints }: { points: number; maxPoints: number }) {
+  const { language, t } = useLanguage();
+  const loyaltyCopy = getLoyaltyCopy(language);
   const remaining = Math.max(0, maxPoints - points);
 
   return (
     <View style={styles.card}>
       <View style={styles.top}>
-        <Text style={styles.title}>TWOJE PUNKTY</Text>
+        <Text style={styles.title}>{t.points.title}</Text>
         <Text style={styles.big}>
           {points} / {maxPoints}
         </Text>
@@ -30,8 +33,8 @@ export function LoyaltyCard({ points, maxPoints }: { points: number; maxPoints: 
       <View style={styles.bottom}>
         <Text style={styles.bottomText}>
           {remaining === 0
-            ? tenant.loyalty.rewardReadyText
-            : `Jeszcze ${remaining} ${formatPointWord(remaining)} ${tenant.loyalty.pointsUntilRewardSuffix}`}
+            ? loyaltyCopy.rewardReadyText
+            : `${t.points.remainingPrefix} ${remaining} ${formatPointWord(remaining, language)} ${loyaltyCopy.pointsUntilRewardSuffix}`}
         </Text>
       </View>
     </View>

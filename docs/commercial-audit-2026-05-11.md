@@ -24,6 +24,8 @@ operational repeatability, OAuth provider verification, and deeper loyalty analy
 - Account deletion exists in the app profile screen.
 - Mobile/admin tenant config now centralizes brand/menu/loyalty/dashboard settings.
 - `loyalty_events` now records staff point adjustments with RLS-protected audit history.
+- Mobile app has a persisted PL/EN language switch in the profile screen.
+- Reward redemption is explicit: the app shows `ODBIERZ NAGRODĘ` / `REDEEM REWARD` at 10 points, while staff redeems it in the dashboard and subtracts 10 points.
 
 ## Fixed During This Audit
 
@@ -35,14 +37,16 @@ operational repeatability, OAuth provider verification, and deeper loyalty analy
 - Disabled the stale root copy of `admin_users` in `mnc-admin/supabase/functions`.
 - Added clone-oriented tenant config in mobile app and admin dashboard.
 - Added `loyalty_events` database ledger and recent point operation history in the admin points screen.
+- Added the first mobile PL/EN localization layer.
+- Added staff reward redemption RPC and dashboard action.
 
 ## High Priority Before Cloning
 
 1. Complete OAuth provider verification.
    Google has at least one live identity and a successful Supabase OAuth callback in logs, but it still needs a full native TestFlight/development-build verification. Apple is not verified: live Supabase Auth logs on 2026-05-11 show `Unacceptable audience in id_token: [com.greenvoi.conceptapp]`, so Apple Developer/Supabase provider configuration must be fixed.
 
-2. Decide reward redemption rules.
-   Point add/remove operations are now logged in `loyalty_events`, but the product still needs a clear rule for redeeming the reward: subtract 10, reset to 0, allow over-threshold balance, or add a dedicated redemption action.
+2. Expand owner-facing analytics.
+   Point add/remove and reward redemption operations are now logged in `loyalty_events`, but owners still need clearer metrics: active users, repeat customers, reward redemptions, push conversion, and retention.
 
 3. Finish native clone config.
    Tenant settings now live in config files, but `app.json` still has native per-client identifiers: app name, slug, scheme, bundle id, icons, and EAS project id.
