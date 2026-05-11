@@ -2,8 +2,8 @@
 
 Date: 2026-05-11
 
-This template is intended to be cloned as one isolated product per restaurant during the first commercial phase.
-Each client should get its own mobile app build, admin dashboard deployment, and Supabase project.
+This template is intended to be used as one isolated product per restaurant during the first commercial phase.
+Each client should get its own mobile app build, admin dashboard deployment, and Supabase project, while the core app code remains shared and repeatable.
 
 ## Recommended Deployment Model
 
@@ -13,8 +13,8 @@ For the first 10-20 clients, avoid one shared multi-tenant admin dashboard at `/
 
 Good early model:
 
-- `client-app` repo/folder copied from `concept-app`
-- `client-admin` repo/folder copied from `mnc-admin`
+- one app template with client config in `clients/<slug>/client.config.json`
+- one admin dashboard template with matching tenant settings
 - one client Supabase project
 - one client EAS project/app identifier
 - one client admin URL or GitHub Pages/Vercel deployment
@@ -23,20 +23,60 @@ Good early model:
 
 Mobile app:
 
-- `src/config/tenant.ts`: brand name, app scheme used by OAuth redirects, menu categories, tab labels/icons, loyalty copy, reward threshold
+- `clients/<slug>/client.config.json`: source of truth for brand, native app identity, app scheme used by OAuth redirects, menu categories, tab labels/icons, loyalty copy, reward threshold, theme tokens, and admin defaults
+- `src/config/client.ts`: registry of available client configs used by the app bundle
+- `src/config/tenant.ts`: runtime mapping from client config to icon components and app helpers
 - `src/i18n/translations.ts`: app UI copy in Polish and English
-- `src/ui/theme.ts` and screen/component styles: visual system, colors, spacing, typography, borders
-- `app.json`: native Expo/App Store identity: app name, slug, scheme, bundle identifier, icons, EAS project id
+- `src/ui/theme.ts` and screen/component styles: visual system derived from client theme tokens
+- `app.config.js`: native Expo/App Store identity derived from active client config
 - `assets/`: client icon, splash, screenshots
-- `.env` / EAS env: `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`
+- `.env` / EAS env: `APP_CLIENT`, `EXPO_PUBLIC_CLIENT_SLUG`, `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`
 
 Admin:
 
-- `src/tenant.ts`: dashboard title, GitHub Pages/Vite base path, menu categories, default push screen, tab labels
+- `clients/<slug>/dashboard.config.json`: dashboard title, GitHub Pages/Vite base path, menu categories, default push screen, tab labels
+- `src/tenant.ts`: registry/loader for dashboard client configs
 - `VITE_ADMIN_BASE_PATH`: optional deploy override for Vite base path
+- `VITE_CLIENT_SLUG`: active dashboard client slug
 - `.env`: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
 
 Menu category keys in mobile/admin config must match `menu_items.category` values in Supabase.
+
+## Factory Commands
+
+Create a new client config from the MNC template:
+
+```bash
+npm run client:new -- pogodna "Pogodna Cafe" com.greenvoi.pogodna pogodna
+```
+
+The command also registers the generated client in `src/config/client.ts` so the app bundle can select it.
+
+Validate an existing client config:
+
+```bash
+APP_CLIENT=mnc npm run client:validate -- mnc
+```
+
+Inspect the final Expo config that EAS will see:
+
+```bash
+APP_CLIENT=mnc npx expo config --json
+```
+
+Production builds should always be launched with the correct active client:
+
+```bash
+APP_CLIENT=mnc EXPO_PUBLIC_CLIENT_SLUG=mnc eas build -p ios --profile production
+```
+
+In `mnc-admin`, create and validate the matching dashboard client:
+
+```bash
+npm run client:new -- pogodna "POGODNA ADMIN" /pogodna-admin/
+VITE_CLIENT_SLUG=pogodna npm run client:validate -- pogodna
+VITE_CLIENT_SLUG=pogodna npm run build
+```
 
 ## Supabase Setup
 

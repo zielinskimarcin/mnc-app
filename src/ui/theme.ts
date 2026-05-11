@@ -1,17 +1,28 @@
+import { clientConfig } from "../config/client";
+
+const clientTheme = clientConfig.theme;
+
 export const theme = {
   c: {
-    bg: "#FFFFFF",
-    text: "#0A0A0A",
-    muted: "#717182",
-    divider: "#E5E7EB",
-    border: "rgba(0,0,0,0.10)", // cienkie linie
-    borderStrong: "#000000",     // tylko tam gdzie ma być “mocna” rama
+    bg: clientTheme.colors.background,
+    surface: clientTheme.colors.surface,
+    text: clientTheme.colors.text,
+    muted: clientTheme.colors.muted,
+    divider: clientTheme.colors.divider,
+    border: clientTheme.colors.border,
+    borderStrong: clientTheme.colors.borderStrong,
+    primary: clientTheme.colors.primary,
+    primaryText: clientTheme.colors.primaryText,
+    danger: clientTheme.colors.danger,
   },
 
   s: {
-    pad: 24,
+    pad: clientTheme.spacing.page,
     border: 1,
     tabBaseH: 64,
+    cardRadius: clientTheme.radii.card,
+    buttonRadius: clientTheme.radii.button,
+    sheetRadius: clientTheme.radii.sheet,
   },
 
   f: {
@@ -21,19 +32,17 @@ export const theme = {
   },
 
   t: {
-  // LOGO / brand jak na screenie (mniejszy spacing, cieńsze)
-  brand: {
-    fontFamily: "Inter_500Medium" as const, // cieniej niż 600
-    fontSize: 30,                           // “wyższe”
-    letterSpacing: 1.2,                     // mniejszy spacing między literami
-    color: "#0A0A0A",
-  },
+    brand: {
+      fontFamily: "Inter_500Medium" as const,
+      fontSize: clientTheme.typography.brandFontSize,
+      letterSpacing: clientTheme.typography.brandLetterSpacing,
+      color: clientTheme.colors.text,
+    },
 
-  catLabel: {
-    fontFamily: "Inter_500Medium" as const,
-    fontSize: 12,
-    letterSpacing: 2,
+    catLabel: {
+      fontFamily: "Inter_500Medium" as const,
+      fontSize: clientTheme.typography.categoryFontSize,
+      letterSpacing: clientTheme.typography.categoryLetterSpacing,
+    },
   },
-},
-
 };

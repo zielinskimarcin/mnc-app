@@ -56,7 +56,7 @@ function MncTabBar({ state, navigation }: any) {
               <Icon
                 size={18}
                 strokeWidth={2.0}
-                color={isActive ? "#FFF" : "#000"}
+                color={isActive ? theme.c.primaryText : theme.c.primary}
               />
               <Text style={[styles.label, isActive ? styles.labelActive : styles.labelInactive]}>
                 {localizedText(tab.label, language)}
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
   bar: {
     flexDirection: "row",
     borderTopWidth: 1,
-    borderColor: "#000",
-    backgroundColor: "#FFF",
+    borderColor: theme.c.borderStrong,
+    backgroundColor: theme.c.surface,
   },
 
   tab: {
@@ -95,10 +95,10 @@ const styles = StyleSheet.create({
   },
 
 
-  tabActive: { backgroundColor: "#000" },
-  tabInactive: { backgroundColor: "#FFF" },
+  tabActive: { backgroundColor: theme.c.primary },
+  tabInactive: { backgroundColor: theme.c.surface },
 
-  leftDivider: { borderRightWidth: 1, borderColor: "#000" },
+  leftDivider: { borderRightWidth: 1, borderColor: theme.c.borderStrong },
 
   inner: {
     flexDirection: "row",
@@ -113,6 +113,6 @@ const styles = StyleSheet.create({
     letterSpacing: 1.8,
   },
 
-  labelActive: { color: "#FFF" },
-  labelInactive: { color: "#000" },
+  labelActive: { color: theme.c.primaryText },
+  labelInactive: { color: theme.c.primary },
 });

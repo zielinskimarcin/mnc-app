@@ -35,7 +35,7 @@ export function CategoryBar({
             <Icon
               size={18}
               strokeWidth={1.75}
-              color={active ? "#FFFFFF" : "#000000"}
+              color={active ? theme.c.primaryText : theme.c.primary}
             />
             <Text style={[styles.label, active ? styles.labelActive : styles.labelInactive]}>
               {localizedText(it.label, language)}
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: theme.c.borderStrong ?? "#000",
-    backgroundColor: "#FFF",
+    borderColor: theme.c.borderStrong,
+    backgroundColor: theme.c.surface,
   },
 
   item: {
@@ -68,17 +68,17 @@ const styles = StyleSheet.create({
 
   itemDivider: {
     borderLeftWidth: 1,
-    borderColor: theme.c.borderStrong ?? "#000",
+    borderColor: theme.c.borderStrong,
   },
 
-  itemActive: { backgroundColor: "#000" },
-  itemInactive: { backgroundColor: "#FFF" },
+  itemActive: { backgroundColor: theme.c.primary },
+  itemInactive: { backgroundColor: theme.c.surface },
 
   label: {
     fontFamily: theme.t.catLabel.fontFamily,
     fontSize: 12,
     letterSpacing: 2,
   },
-  labelActive: { color: "#FFF" },
-  labelInactive: { color: "#000" },
+  labelActive: { color: theme.c.primaryText },
+  labelInactive: { color: theme.c.primary },
 });

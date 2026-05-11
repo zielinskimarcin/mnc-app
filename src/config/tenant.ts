@@ -1,6 +1,25 @@
 import type { ComponentType } from "react";
-import { Coffee, CupSoda, Gift, Leaf, Utensils } from "lucide-react-native";
+import {
+  Beef,
+  Beer,
+  CakeSlice,
+  Coffee,
+  Croissant,
+  CupSoda,
+  Gift,
+  GlassWater,
+  IceCreamBowl,
+  Leaf,
+  Pizza,
+  Salad,
+  Sandwich,
+  Soup,
+  Star,
+  Utensils,
+  Wine,
+} from "lucide-react-native";
 import type { AppLanguage } from "../i18n/types";
+import { clientConfig } from "./client";
 
 type IconComponent = ComponentType<{
   size?: number;
@@ -9,6 +28,7 @@ type IconComponent = ComponentType<{
 }>;
 
 type LocalizedText = Record<AppLanguage, string>;
+type IconName = keyof typeof iconRegistry;
 
 export type MenuCategoryConfig = {
   key: string;
@@ -16,53 +36,55 @@ export type MenuCategoryConfig = {
   Icon: IconComponent;
 };
 
+const iconRegistry = {
+  Beef,
+  Beer,
+  CakeSlice,
+  Coffee,
+  Croissant,
+  CupSoda,
+  Gift,
+  GlassWater,
+  IceCreamBowl,
+  Leaf,
+  Pizza,
+  Salad,
+  Sandwich,
+  Soup,
+  Star,
+  Utensils,
+  Wine,
+};
+
+function resolveIcon(name: string): IconComponent {
+  return iconRegistry[name as IconName] ?? Coffee;
+}
+
 export const tenant = {
-  brandName: "MNC CONCEPT",
-  brandMark: "™",
-  appScheme: "mncconcept",
-  menuCategories: [
-    { key: "MATCHA", label: { pl: "MATCHA", en: "MATCHA" }, Icon: Leaf },
-    { key: "NAPOJE", label: { pl: "NAPOJE", en: "DRINKS" }, Icon: CupSoda },
-    { key: "JEDZENIE", label: { pl: "JEDZENIE", en: "FOOD" }, Icon: Utensils },
-  ],
+  slug: clientConfig.slug,
+  brandName: clientConfig.brand.name,
+  brandMark: clientConfig.brand.mark,
+  appScheme: clientConfig.native.scheme,
+  menuCategories: clientConfig.menuCategories.map((category) => ({
+    key: category.key,
+    label: category.label,
+    Icon: resolveIcon(category.icon),
+  })),
   tabs: {
-    menu: { routeName: "MENU", label: { pl: "MENU", en: "MENU" }, Icon: Coffee },
-    points: { routeName: "PUNKTY", label: { pl: "PUNKTY", en: "POINTS" }, Icon: Gift },
-  },
-  loyalty: {
-    maxPoints: 10,
-    copy: {
-      pl: {
-        rewardReadyText: "Gratulacje! Odbierz darmową matchę!",
-        pointsUntilRewardSuffix: "do nagrody",
-        steps: [
-          "Zbieraj punkty przy każdym zakupie matchy",
-          "10 punktów = matcha gratis",
-          "Pokaż aplikację przy kasie",
-        ],
-        pointWords: {
-          singular: "punkt",
-          few: "punkty",
-          many: "punktów",
-        },
-      },
-      en: {
-        rewardReadyText: "Your reward is ready!",
-        pointsUntilRewardSuffix: "until your reward",
-        steps: [
-          "Collect points with every matcha purchase",
-          "10 points = a free matcha",
-          "Show the app at checkout",
-        ],
-        pointWords: {
-          singular: "point",
-          few: "points",
-          many: "points",
-        },
-      },
+    menu: {
+      routeName: clientConfig.tabs.menu.routeName,
+      label: clientConfig.tabs.menu.label,
+      Icon: resolveIcon(clientConfig.tabs.menu.icon),
+    },
+    points: {
+      routeName: clientConfig.tabs.points.routeName,
+      label: clientConfig.tabs.points.label,
+      Icon: resolveIcon(clientConfig.tabs.points.icon),
     },
   },
+  loyalty: clientConfig.loyalty,
 } satisfies {
+  slug: string;
   brandName: string;
   brandMark: string;
   appScheme: string;

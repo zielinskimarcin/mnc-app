@@ -157,7 +157,7 @@ export default function ProfileScreen({ onClose }: { onClose: () => void }) {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{t.profile.title}</Text>
         <Pressable onPress={onClose} style={styles.closeBtn}>
-          <Ionicons name="close" size={18} color="#000" />
+          <Ionicons name="close" size={18} color={theme.c.text} />
         </Pressable>
       </View>
 
@@ -198,7 +198,7 @@ export default function ProfileScreen({ onClose }: { onClose: () => void }) {
             <View style={styles.card}>
               <View style={styles.avatarWrap}>
                 <View style={styles.avatarBox}>
-                  <Feather name="user" size={28} color="#000" />
+                  <Feather name="user" size={28} color={theme.c.text} />
                 </View>
               </View>
 
@@ -218,7 +218,7 @@ export default function ProfileScreen({ onClose }: { onClose: () => void }) {
                       <Text style={[styles.nameText, !profile.name && styles.namePlaceholder]}>
                         {profile.name ? profile.name.toUpperCase() : t.profile.setName}
                       </Text>
-                      <Feather name="edit-2" size={14} color="#6B7280" />
+                      <Feather name="edit-2" size={14} color={theme.c.muted} />
                     </Pressable>
                   )}
                 </View>
@@ -231,7 +231,7 @@ export default function ProfileScreen({ onClose }: { onClose: () => void }) {
             </View>
 
             <Pressable onPress={() => setPasswordOpen(!passwordOpen)} style={styles.actionBtn}>
-              <Feather name="lock" size={16} color="#000" />
+              <Feather name="lock" size={16} color={theme.c.text} />
               <Text style={styles.actionText}>{t.profile.changePassword}</Text>
             </Pressable>
 
@@ -258,12 +258,12 @@ export default function ProfileScreen({ onClose }: { onClose: () => void }) {
             )}
 
             <Pressable onPress={logout} style={styles.actionBtn}>
-              <Feather name="log-out" size={16} color="#000" />
+              <Feather name="log-out" size={16} color={theme.c.text} />
               <Text style={styles.actionText}>{t.profile.logout}</Text>
             </Pressable>
 
             <Pressable onPress={deleteAccount} style={styles.actionBtn}>
-              <Feather name="trash-2" size={16} color="#DC2626" />
+              <Feather name="trash-2" size={16} color={theme.c.danger} />
               <Text style={styles.dangerText}>{t.profile.deleteAccount}</Text>
             </Pressable>
           </>
@@ -329,27 +329,28 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 42,
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FFF",
+    backgroundColor: theme.c.surface,
+    borderRadius: theme.s.buttonRadius,
   },
 
-  languageBtnActive: { backgroundColor: "#000" },
+  languageBtnActive: { backgroundColor: theme.c.primary },
 
   languageText: {
     fontFamily: theme.f.medium,
     fontSize: 12,
     letterSpacing: 1.5,
-    color: "#000",
+    color: theme.c.primary,
   },
 
-  languageTextActive: { color: "#FFF" },
+  languageTextActive: { color: theme.c.primaryText },
 
   loggedOutHint: {
     fontFamily: theme.f.regular,
     fontSize: 14,
-    color: "#6B7280",
+    color: theme.c.muted,
     textAlign: "center",
     marginBottom: 12,
   },
@@ -368,7 +369,7 @@ const styles = StyleSheet.create({
   smallLabel: {
     fontFamily: theme.f.regular,
     fontSize: 12,
-    color: "#6B7280",
+    color: theme.c.muted,
     letterSpacing: 1,
   },
 
@@ -385,7 +386,7 @@ const styles = StyleSheet.create({
   },
 
   namePlaceholder: {
-    color: "#9CA3AF",
+    color: theme.c.muted,
   },
 
   emailText: {
@@ -395,7 +396,8 @@ const styles = StyleSheet.create({
 
   input: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
+    borderRadius: theme.s.cardRadius,
     padding: 12,
     width: 200,
     textAlign: "center",
@@ -403,7 +405,8 @@ const styles = StyleSheet.create({
 
   inputFull: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
+    borderRadius: theme.s.cardRadius,
     padding: 12,
   },
 
@@ -438,25 +441,26 @@ const styles = StyleSheet.create({
   dangerText: {
     fontFamily: theme.f.medium,
     letterSpacing: 2,
-    color: "#DC2626",
+    color: theme.c.danger,
   },
 
   primaryBtn: {
-    backgroundColor: "#000",
+    backgroundColor: theme.c.primary,
+    borderRadius: theme.s.buttonRadius,
     height: 56,
     alignItems: "center",
     justifyContent: "center",
   },
 
   primaryText: {
-    color: "#FFF",
+    color: theme.c.primaryText,
     fontFamily: theme.f.medium,
     letterSpacing: 2,
   },
 
   version: {
     textAlign: "center",
-    color: "#9CA3AF",
+    color: theme.c.muted,
     fontSize: 12,
     marginTop: 6,
   },

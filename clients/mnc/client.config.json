@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "slug": "mnc",
+  "displayName": "MNC CONCEPT",
+  "brand": {
+    "name": "MNC CONCEPT",
+    "mark": "™"
+  },
+  "native": {
+    "expoSlug": "concept-app",
+    "scheme": "mncconcept",
+    "iosBundleIdentifier": "com.greenvoi.conceptapp",
+    "easProjectId": "c029d757-5ec3-41c0-91d9-184de1369815"
+  },
+  "assets": {
+    "icon": "./assets/icon.png",
+    "adaptiveIcon": "./assets/adaptive-icon.png",
+    "splashIcon": "./assets/splash-icon.png",
+    "favicon": "./assets/favicon.png"
+  },
+  "theme": {
+    "colors": {
+      "background": "#FFFFFF",
+      "surface": "#FFFFFF",
+      "text": "#0A0A0A",
+      "muted": "#717182",
+      "divider": "#E5E7EB",
+      "border": "rgba(0,0,0,0.10)",
+      "borderStrong": "#000000",
+      "primary": "#000000",
+      "primaryText": "#FFFFFF",
+      "danger": "#DC2626"
+    },
+    "spacing": {
+      "page": 24
+    },
+    "radii": {
+      "card": 0,
+      "button": 0,
+      "sheet": 28
+    },
+    "typography": {
+      "brandFontSize": 28,
+      "brandLetterSpacing": 1.2,
+      "categoryFontSize": 12,
+      "categoryLetterSpacing": 2
+    }
+  },
+  "menuCategories": [
+    {
+      "key": "MATCHA",
+      "label": {
+        "pl": "MATCHA",
+        "en": "MATCHA"
+      },
+      "icon": "Leaf"
+    },
+    {
+      "key": "NAPOJE",
+      "label": {
+        "pl": "NAPOJE",
+        "en": "DRINKS"
+      },
+      "icon": "CupSoda"
+    },
+    {
+      "key": "JEDZENIE",
+      "label": {
+        "pl": "JEDZENIE",
+        "en": "FOOD"
+      },
+      "icon": "Utensils"
+    }
+  ],
+  "tabs": {
+    "menu": {
+      "routeName": "MENU",
+      "label": {
+        "pl": "MENU",
+        "en": "MENU"
+      },
+      "icon": "Coffee"
+    },
+    "points": {
+      "routeName": "PUNKTY",
+      "label": {
+        "pl": "PUNKTY",
+        "en": "POINTS"
+      },
+      "icon": "Gift"
+    }
+  },
+  "loyalty": {
+    "maxPoints": 10,
+    "copy": {
+      "pl": {
+        "rewardReadyText": "Gratulacje! Odbierz darmową matchę!",
+        "pointsUntilRewardSuffix": "do nagrody",
+        "steps": [
+          "Zbieraj punkty przy każdym zakupie matchy",
+          "10 punktów = matcha gratis",
+          "Pokaż aplikację przy kasie"
+        ],
+        "pointWords": {
+          "singular": "punkt",
+          "few": "punkty",
+          "many": "punktów"
+        }
+      },
+      "en": {
+        "rewardReadyText": "Your reward is ready!",
+        "pointsUntilRewardSuffix": "until your reward",
+        "steps": [
+          "Collect points with every matcha purchase",
+          "10 points = a free matcha",
+          "Show the app at checkout"
+        ],
+        "pointWords": {
+          "singular": "point",
+          "few": "points",
+          "many": "points"
+        }
+      }
+    }
+  },
+  "admin": {
+    "title": "MNC ADMIN",
+    "basePath": "/mnc-admin/",
+    "defaultPushScreen": "MENU"
+  }
+}

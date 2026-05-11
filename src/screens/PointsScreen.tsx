@@ -135,7 +135,7 @@ export default function PointsScreen() {
                   <Coffee
                     size={Math.round(cellSize * 0.44)}
                     strokeWidth={2.0}
-                    color={filled ? "#FFF" : "#000"}
+                    color={filled ? theme.c.primaryText : theme.c.primary}
                   />
                 </View>
               );
@@ -197,7 +197,7 @@ export default function PointsScreen() {
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>{rewardReady ? t.points.rewardCodeTitle : t.points.codeTitle}</Text>
               <Pressable onPress={() => setCodeOpen(false)}>
-                <X size={18} strokeWidth={1.8} color="#000" />
+                <X size={18} strokeWidth={1.8} color={theme.c.text} />
               </Pressable>
             </View>
 
@@ -235,7 +235,7 @@ export default function PointsScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#FFF" },
+  root: { flex: 1, backgroundColor: theme.c.bg },
 
   content: {
     padding: theme.s.pad,
@@ -244,7 +244,8 @@ const styles = StyleSheet.create({
 
   card: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
+    borderRadius: theme.s.cardRadius,
     paddingVertical: 22,
     paddingHorizontal: 22,
     alignItems: "center",
@@ -272,18 +273,18 @@ const styles = StyleSheet.create({
 
   cell: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
     alignItems: "center",
     justifyContent: "center",
   },
 
-  cellFilled: { backgroundColor: "#000" },
-  cellEmpty: { backgroundColor: "#FFF" },
+  cellFilled: { backgroundColor: theme.c.primary },
+  cellEmpty: { backgroundColor: theme.c.surface },
 
   hr: {
     height: 1,
     width: "100%",
-    backgroundColor: "#000",
+    backgroundColor: theme.c.borderStrong,
     marginTop: 14,
     marginBottom: 12,
   },
@@ -297,8 +298,9 @@ const styles = StyleSheet.create({
   codeBtn: {
     marginTop: 14,
     borderWidth: 1,
-    borderColor: "#000",
-    backgroundColor: "#000",
+    borderColor: theme.c.primary,
+    backgroundColor: theme.c.primary,
+    borderRadius: theme.s.buttonRadius,
     height: 56,
     alignItems: "center",
     justifyContent: "center",
@@ -308,7 +310,7 @@ const styles = StyleSheet.create({
     fontFamily: theme.f.medium,
     fontSize: 14,
     letterSpacing: 2,
-    color: "#FFF",
+    color: theme.c.primaryText,
   },
 
   howTitle: {
@@ -324,7 +326,8 @@ const styles = StyleSheet.create({
 
   stepRow: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
+    borderRadius: theme.s.cardRadius,
     paddingVertical: 18,
     paddingHorizontal: 16,
     flexDirection: "row",
@@ -335,7 +338,8 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
+    borderRadius: theme.s.cardRadius,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -359,9 +363,10 @@ const styles = StyleSheet.create({
   },
 
   modalCard: {
-    backgroundColor: "#FFF",
+    backgroundColor: theme.c.surface,
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
+    borderRadius: theme.s.cardRadius,
     padding: 18,
   },
 
@@ -379,7 +384,8 @@ const styles = StyleSheet.create({
 
   modalCodeBox: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
+    borderRadius: theme.s.cardRadius,
     paddingVertical: 18,
     alignItems: "center",
     marginBottom: 16,
@@ -389,7 +395,7 @@ const styles = StyleSheet.create({
     fontFamily: theme.f.regular,
     fontSize: 14,
     lineHeight: 20,
-    color: "#6B7280",
+    color: theme.c.muted,
     marginBottom: 14,
   },
 
@@ -401,7 +407,8 @@ const styles = StyleSheet.create({
 
   modalCloseBtn: {
     height: 54,
-    backgroundColor: "#000",
+    backgroundColor: theme.c.primary,
+    borderRadius: theme.s.buttonRadius,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -410,6 +417,6 @@ const styles = StyleSheet.create({
     fontFamily: theme.f.medium,
     fontSize: 14,
     letterSpacing: 2,
-    color: "#FFF",
+    color: theme.c.primaryText,
   },
 });

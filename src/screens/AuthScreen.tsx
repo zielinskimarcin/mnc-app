@@ -217,7 +217,7 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
 
       <Animated.View style={[styles.sheet, { transform: [{ translateY }] }]} {...panResponder.panHandlers}>
         <Pressable style={styles.closeBtn} onPress={close} disabled={busy}>
-          <Ionicons name="close" size={24} color="#000" />
+          <Ionicons name="close" size={24} color={theme.c.text} />
         </Pressable>
 
         <KeyboardAvoidingView style={[styles.root, { paddingTop: insets.top }]} behavior={Platform.OS === "ios" ? "padding" : undefined}>
@@ -244,7 +244,7 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
                   autoCapitalize="none"
                   keyboardType="email-address"
                   placeholder={t.auth.emailPlaceholder}
-                  placeholderTextColor="#9CA3AF"
+                  placeholderTextColor={theme.c.muted}
                   style={styles.input}
                   editable={!busy}
                 />
@@ -257,7 +257,7 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
                   onChangeText={setPassword}
                   secureTextEntry
                   placeholder={t.auth.passwordPlaceholder}
-                  placeholderTextColor="#9CA3AF"
+                  placeholderTextColor={theme.c.muted}
                   style={styles.input}
                   editable={!busy}
                 />
@@ -276,7 +276,7 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
               </View>
 
               <Pressable style={styles.outlineBtn} onPress={signInWithAppleNative} disabled={busy}>
-                <Ionicons name="logo-apple" size={18} color="#000" style={{ marginRight: 10 }} />
+                <Ionicons name="logo-apple" size={18} color={theme.c.text} style={{ marginRight: 10 }} />
                 <Text style={styles.outlineText}>{busy ? "..." : t.auth.continueApple}</Text>
               </Pressable>
 
@@ -322,8 +322,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: SHEET_HEIGHT,
     backgroundColor: theme.c.bg,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    borderTopLeftRadius: theme.s.sheetRadius,
+    borderTopRightRadius: theme.s.sheetRadius,
   },
 
   closeBtn: {
@@ -351,17 +351,18 @@ const styles = StyleSheet.create({
 
   brandText: {
     fontFamily: theme.t.brand.fontFamily,
-    fontSize: 28,
-    letterSpacing: 1.2,
+    fontSize: theme.t.brand.fontSize,
+    letterSpacing: theme.t.brand.letterSpacing,
+    color: theme.t.brand.color,
   },
 
-  tm: { marginLeft: 4, marginTop: 4, fontSize: 12 },
+  tm: { marginLeft: 4, marginTop: 4, fontSize: 12, color: theme.c.text },
 
   slogan: {
     marginTop: 20,
     fontFamily: theme.f.regular,
     fontSize: 16,
-    color: "#6B7280",
+    color: theme.c.muted,
     textAlign: "center",
   },
 
@@ -377,7 +378,8 @@ const styles = StyleSheet.create({
 
   input: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
+    borderRadius: theme.s.cardRadius,
     paddingVertical: 14,
     paddingHorizontal: 14,
     fontFamily: theme.f.regular,
@@ -387,7 +389,8 @@ const styles = StyleSheet.create({
   primary: {
     marginTop: 8,
     height: 56,
-    backgroundColor: "#000",
+    backgroundColor: theme.c.primary,
+    borderRadius: theme.s.buttonRadius,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -396,7 +399,7 @@ const styles = StyleSheet.create({
     fontFamily: theme.f.medium,
     fontSize: 14,
     letterSpacing: 2,
-    color: "#FFF",
+    color: theme.c.primaryText,
   },
 
   dividerRow: {
@@ -406,19 +409,20 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
 
-  dividerLine: { flex: 1, height: 1, backgroundColor: "#000" },
+  dividerLine: { flex: 1, height: 1, backgroundColor: theme.c.borderStrong },
 
   dividerText: {
     fontFamily: theme.f.regular,
     fontSize: 14,
     letterSpacing: 2,
-    color: "#6B7280",
+    color: theme.c.muted,
   },
 
   outlineBtn: {
     height: 56,
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: theme.c.borderStrong,
+    borderRadius: theme.s.buttonRadius,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -435,7 +439,7 @@ const styles = StyleSheet.create({
   signupHint: {
     fontFamily: theme.f.regular,
     fontSize: 14,
-    color: "#6B7280",
+    color: theme.c.muted,
     marginBottom: 6,
   },
 

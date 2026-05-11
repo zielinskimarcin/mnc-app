@@ -94,7 +94,7 @@ export default function MenuScreen() {
           idx > 0 ? styles.catDivider : null,
         ]}
       >
-        <Icon size={18} strokeWidth={1.75} color={active ? "#FFF" : "#000"} />
+        <Icon size={18} strokeWidth={1.75} color={active ? theme.c.primaryText : theme.c.primary} />
         <Text style={[styles.catLabel, active ? styles.catLabelActive : styles.catLabelInactive]}>
           {localizedText(c.label, language)}
         </Text>
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     height: 83,
     borderBottomWidth: 1,
     borderColor: theme.c.borderStrong,
-    backgroundColor: "#FFF",
+    backgroundColor: theme.c.surface,
   },
 
   catRow: {
@@ -168,14 +168,14 @@ const styles = StyleSheet.create({
     borderColor: theme.c.borderStrong,
   },
 
-  catItemActive: { backgroundColor: "#000" },
-  catItemInactive: { backgroundColor: "#FFF" },
+  catItemActive: { backgroundColor: theme.c.primary },
+  catItemInactive: { backgroundColor: theme.c.surface },
 
   catLabel: {
     fontFamily: theme.f.medium,
     fontSize: theme.t.catLabel.fontSize,
     letterSpacing: theme.t.catLabel.letterSpacing,
   },
-  catLabelActive: { color: "#FFF" },
-  catLabelInactive: { color: "#000" },
+  catLabelActive: { color: theme.c.primaryText },
+  catLabelInactive: { color: theme.c.primary },
 });

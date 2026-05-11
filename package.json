@@ -3,6 +3,9 @@
   "version": "1.0.123",
   "main": "index.ts",
   "scripts": {
+    "typecheck": "tsc --noEmit",
+    "client:validate": "node scripts/validate-client.mjs",
+    "client:new": "node scripts/new-client.mjs",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
