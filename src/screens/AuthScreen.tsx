@@ -189,8 +189,18 @@ export default function AuthScreen({ onClose }: { onClose: () => void }) {
 
       if (result.type !== "success") return;
 
+      const callbackUrl = new URL(result.url);
+      const callbackError =
+        callbackUrl.searchParams.get("error_description") ??
+        callbackUrl.searchParams.get("error");
+
+      if (callbackError) throw new Error(callbackError);
+
+      const authCode = callbackUrl.searchParams.get("code");
+      if (!authCode) throw new Error(t.auth.googleMissingCode);
+
       const { error: exchangeError } =
-        await supabase.auth.exchangeCodeForSession(result.url);
+        await supabase.auth.exchangeCodeForSession(authCode);
 
       if (exchangeError) throw exchangeError;
 

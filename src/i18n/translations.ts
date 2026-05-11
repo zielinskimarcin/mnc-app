@@ -24,6 +24,7 @@ export const translations = {
       appleTokenMissing: "Brak identityToken z Apple",
       appleErrorTitle: "Apple login error",
       googleMissingUrl: "Brak URL Google",
+      googleMissingCode: "Brak kodu autoryzacji Google",
       googleErrorTitle: "Google login error",
     },
     menu: {
@@ -98,6 +99,7 @@ export const translations = {
       appleTokenMissing: "Missing Apple identity token",
       appleErrorTitle: "Apple login error",
       googleMissingUrl: "Missing Google URL",
+      googleMissingCode: "Missing Google authorization code",
       googleErrorTitle: "Google login error",
     },
     menu: {

@@ -79,39 +79,45 @@ export default function MenuScreen() {
     return Array.from(map.entries());
   }, [filtered]);
 
+  const categoryTabs = tenant.menuCategories.map((c, idx) => {
+    const active = c.key === cat;
+    const Icon = c.Icon;
+
+    return (
+      <Pressable
+        key={c.key}
+        onPress={() => setCat(c.key)}
+        style={[
+          styles.catItem,
+          tenant.menuCategories.length <= 3 ? styles.catItemFlexible : styles.catItemFixed,
+          active ? styles.catItemActive : styles.catItemInactive,
+          idx > 0 ? styles.catDivider : null,
+        ]}
+      >
+        <Icon size={18} strokeWidth={1.75} color={active ? "#FFF" : "#000"} />
+        <Text style={[styles.catLabel, active ? styles.catLabelActive : styles.catLabelInactive]}>
+          {localizedText(c.label, language)}
+        </Text>
+      </Pressable>
+    );
+  });
+
   return (
     <View style={styles.root}>
       <MncHeader onProfile={() => setProfileOpen(true)} />
 
-      <ScrollView
-        horizontal={tenant.menuCategories.length > 3}
-        showsHorizontalScrollIndicator={false}
-        style={styles.catScroller}
-        contentContainerStyle={styles.catRow}
-      >
-        {tenant.menuCategories.map((c, idx) => {
-          const active = c.key === cat;
-          const Icon = c.Icon;
-
-          return (
-            <Pressable
-              key={c.key}
-              onPress={() => setCat(c.key)}
-              style={[
-                styles.catItem,
-                tenant.menuCategories.length <= 3 ? styles.catItemFlexible : styles.catItemFixed,
-                active ? styles.catItemActive : styles.catItemInactive,
-                idx > 0 ? styles.catDivider : null,
-              ]}
-            >
-              <Icon size={18} strokeWidth={1.75} color={active ? "#FFF" : "#000"} />
-              <Text style={[styles.catLabel, active ? styles.catLabelActive : styles.catLabelInactive]}>
-                {localizedText(c.label, language)}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
+      {tenant.menuCategories.length > 3 ? (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.catScroller}
+          contentContainerStyle={styles.catRow}
+        >
+          {categoryTabs}
+        </ScrollView>
+      ) : (
+        <View style={[styles.catScroller, styles.catRow]}>{categoryTabs}</View>
+      )}
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -137,6 +143,7 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: theme.c.bg },
 
   catScroller: {
+    height: 82,
     borderBottomWidth: 1,
     borderColor: theme.c.borderStrong,
     backgroundColor: "#FFF",
@@ -144,7 +151,6 @@ const styles = StyleSheet.create({
 
   catRow: {
     flexDirection: "row",
-    flexGrow: 1,
   },
 
   catItem: {

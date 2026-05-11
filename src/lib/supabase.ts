@@ -27,13 +27,12 @@ export const supabase = createClient(
   SUPABASE_URL ?? "https://example.supabase.co",
   SUPABASE_ANON_KEY ?? "missing-anon-key",
   {
-  auth: {
-    // ✅ to naprawia "invalid flow state" w RN
-    storage: AsyncStorage,
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: false, // RN nie parsuje URL jak web
-    flowType: "pkce",          // wymuś PKCE
-  },
+    auth: {
+      storage: AsyncStorage,
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: false,
+      flowType: "pkce",
+    },
   }
 );
