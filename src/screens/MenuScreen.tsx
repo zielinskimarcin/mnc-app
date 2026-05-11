@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: theme.c.bg },
 
   catScroller: {
-    height: 82,
+    height: 83,
     borderBottomWidth: 1,
     borderColor: theme.c.borderStrong,
     backgroundColor: "#FFF",
