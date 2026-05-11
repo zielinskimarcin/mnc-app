@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "slug": "pogodna",
+  "displayName": "Pogodna Café",
+  "brand": {
+    "name": "POGODNA",
+    "mark": ""
+  },
+  "native": {
+    "expoSlug": "pogodna-app",
+    "scheme": "pogodna",
+    "iosBundleIdentifier": "com.greenvoi.pogodna",
+    "easProjectId": ""
+  },
+  "assets": {
+    "icon": "./assets/icon.png",
+    "adaptiveIcon": "./assets/adaptive-icon.png",
+    "splashIcon": "./assets/splash-icon.png",
+    "favicon": "./assets/favicon.png"
+  },
+  "theme": {
+    "colors": {
+      "background": "#FFFFFF",
+      "surface": "#FFFDF8",
+      "text": "#1F2A24",
+      "muted": "#6F766F",
+      "divider": "#E7E1D5",
+      "border": "rgba(31,42,36,0.14)",
+      "borderStrong": "#1F2A24",
+      "primary": "#1F4F3A",
+      "primaryText": "#FFFFFF",
+      "danger": "#B42318"
+    },
+    "spacing": {
+      "page": 24
+    },
+    "radii": {
+      "card": 8,
+      "button": 8,
+      "sheet": 28
+    },
+    "typography": {
+      "brandFontSize": 28,
+      "brandLetterSpacing": 2,
+      "categoryFontSize": 12,
+      "categoryLetterSpacing": 1.6
+    }
+  },
+  "menuCategories": [
+    {
+      "key": "KAWA",
+      "label": {
+        "pl": "KAWA",
+        "en": "COFFEE"
+      },
+      "icon": "Coffee"
+    },
+    {
+      "key": "ŚNIADANIA",
+      "label": {
+        "pl": "ŚNIADANIA",
+        "en": "BREAKFAST"
+      },
+      "icon": "Croissant"
+    },
+    {
+      "key": "DESERY",
+      "label": {
+        "pl": "DESERY",
+        "en": "DESSERTS"
+      },
+      "icon": "CakeSlice"
+    },
+    {
+      "key": "WINO",
+      "label": {
+        "pl": "WINO",
+        "en": "WINE"
+      },
+      "icon": "Wine"
+    }
+  ],
+  "tabs": {
+    "menu": {
+      "routeName": "MENU",
+      "label": {
+        "pl": "MENU",
+        "en": "MENU"
+      },
+      "icon": "Coffee"
+    },
+    "points": {
+      "routeName": "PUNKTY",
+      "label": {
+        "pl": "PUNKTY",
+        "en": "POINTS"
+      },
+      "icon": "Gift"
+    }
+  },
+  "loyalty": {
+    "maxPoints": 10,
+    "copy": {
+      "pl": {
+        "rewardReadyText": "Gratulacje! Odbierz kawę od Pogodnej.",
+        "pointsUntilRewardSuffix": "do nagrody",
+        "steps": [
+          "Zbieraj punkty przy każdej wizycie",
+          "10 punktów = kawa gratis",
+          "Pokaż aplikację przy kasie"
+        ],
+        "pointWords": {
+          "singular": "punkt",
+          "few": "punkty",
+          "many": "punktów"
+        }
+      },
+      "en": {
+        "rewardReadyText": "Your Pogodna coffee reward is ready.",
+        "pointsUntilRewardSuffix": "until your reward",
+        "steps": [
+          "Collect points with every visit",
+          "10 points = a free coffee",
+          "Show the app at checkout"
+        ],
+        "pointWords": {
+          "singular": "point",
+          "few": "points",
+          "many": "points"
+        }
+      }
+    }
+  },
+  "admin": {
+    "title": "POGODNA ADMIN",
+    "basePath": "/pogodna-admin/",
+    "defaultPushScreen": "MENU"
+  }
+}

@@ -70,6 +70,8 @@ Production builds should always be launched with the correct active client:
 APP_CLIENT=mnc EXPO_PUBLIC_CLIENT_SLUG=mnc eas build -p ios --profile production
 ```
 
+Do not run a production build for a new client until `native.easProjectId` in `clients/<slug>/client.config.json` is filled with that client's own EAS project id. Blank is intentional during dry-runs and prevents accidental reuse of the MNC/Laura project id.
+
 In `mnc-admin`, create and validate the matching dashboard client:
 
 ```bash

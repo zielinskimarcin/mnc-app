@@ -57,6 +57,8 @@ APP_CLIENT=pogodna npx expo config --json
 npm run typecheck
 ```
 
+For a newly generated client, keep `native.easProjectId` empty until that client has its own EAS project. The Expo config will then expose `extra.eas` without a project id, which is safer than accidentally building against the MNC/Laura EAS project.
+
 7. Configure Supabase for the client:
 
 - fresh Supabase project

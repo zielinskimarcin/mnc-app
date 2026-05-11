@@ -24,6 +24,7 @@ function readClientConfig() {
 
 module.exports = ({ config }) => {
   const client = readClientConfig();
+  const easProjectId = client.native.easProjectId?.trim();
 
   process.env.EXPO_PUBLIC_CLIENT_SLUG = client.slug;
 
@@ -72,10 +73,7 @@ module.exports = ({ config }) => {
     extra: {
       ...config.extra,
       clientSlug: client.slug,
-      eas: {
-        ...config.extra?.eas,
-        projectId: client.native.easProjectId || config.extra?.eas?.projectId,
-      },
+      eas: easProjectId ? { projectId: easProjectId } : {},
     },
   };
 };
